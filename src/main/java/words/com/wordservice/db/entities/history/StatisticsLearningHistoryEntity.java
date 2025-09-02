@@ -3,6 +3,7 @@ package words.com.wordservice.db.entities.history;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import words.com.wordservice.domain.models.enums.LearningHistoryType;
 
 import java.time.LocalDate;
 
@@ -12,6 +13,6 @@ import java.time.LocalDate;
 public class StatisticsLearningHistoryEntity {
     private int count;
     private long grades;
-    private String type;
+    private LearningHistoryType type;
     private LocalDate date;
 }

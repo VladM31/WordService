@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.actions.DeleteUserWordAction;
 import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
+import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.daos.UserWordDao;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.searches.UserWordSearch;
@@ -50,6 +51,23 @@ class UserWordDaoImpl implements UserWordDao {
     @Override
     public void updateAll(Collection<UserWordEntity> entities) {
         repository.saveAll(entities);
+    }
+
+    @Override
+    @Transactional
+    public void upsertAll(Collection<UserWordUpsertAction> entities) {
+        for (UserWordUpsertAction action : entities) {
+            repository.upsert(
+                    action.id(),
+                    OffsetDateTime.now(),
+                    action.customImageFileName(),
+                    action.customSoundFileNam(),
+                    OffsetDateTime.now(),
+                    0,
+                    action.userId(),
+                    action.wordId()
+            );
+        }
     }
 
     @Override

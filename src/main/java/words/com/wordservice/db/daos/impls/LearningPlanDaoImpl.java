@@ -23,8 +23,8 @@ class LearningPlanDaoImpl implements LearningPlanDao {
     }
 
     @Override
-    public void save(LearningPlanEntity entity) {
-        repository.save(entity);
+    public LearningPlanEntity save(LearningPlanEntity entity) {
+        return repository.save(entity);
     }
 
     @Override

@@ -21,6 +21,7 @@ public class UserWordEntity {
     private String id;
     @Column(nullable = false, updatable = false)
     private String userId;
+    @Column(updatable = false)
     private long learningGrade;
 
     @Nullable

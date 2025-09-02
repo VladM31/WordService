@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import words.com.wordservice.db.actions.DeleteUserWordAction;
 import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
+import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.searches.UserWordSearch;
 
@@ -24,6 +25,8 @@ public interface UserWordDao {
     void update(UserWordEntity entity);
 
     void updateAll(Collection<UserWordEntity> entities);
+
+    void upsertAll(Collection<UserWordUpsertAction> entities);
 
 
     void addGrades(Collection<UpdateUserWordGradeAction> entities);

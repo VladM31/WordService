@@ -13,7 +13,7 @@ public interface LearningPlanDao {
 
     List<LearningPlanEntity> findBy(LearningPlanSearch search);
 
-    void save(LearningPlanEntity entity);
+    LearningPlanEntity save(LearningPlanEntity entity);
 
     void update(LearningPlanEntity entity);
 }

@@ -1,20 +1,11 @@
 package words.com.wordservice.db.daos.impls;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Tuple;
-import jakarta.persistence.TypedQuery;
-import jakarta.persistence.criteria.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
-import words.com.wordservice.db.actions.DeleteWordDeletePlayListsAction;
 import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
 import words.com.wordservice.db.daos.WordPlayListDao;
 import words.com.wordservice.db.entities.WordPlayListEntity;
@@ -24,10 +15,8 @@ import words.com.wordservice.db.searches.WordPlayListSearch;
 import words.com.wordservice.utils.Range;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -93,14 +82,10 @@ class WordPlayListDaoImpl implements WordPlayListDao {
 
     @Override
     @Transactional
-    public void delete(DeleteWordDeletePlayListsAction action) {
-        if (CollectionUtils.isEmpty(action.ids())){
+    public void delete(WordPlayListSearch search) {
+        if (CollectionUtils.isEmpty(search.getIds())) {
             return;
         }
-        var search = WordPlayListSearch.builder()
-                .ids(action.ids())
-                .userId(action.userId())
-                .build();
         repository.delete(search);
     }
 }

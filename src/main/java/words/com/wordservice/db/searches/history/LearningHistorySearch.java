@@ -34,7 +34,7 @@ public class LearningHistorySearch implements Specification<LearningHistoryEntit
             predicates.add(root.get("userId").in(userIds));
         }
         if (!CollectionUtils.isEmpty(wordIds)) {
-            predicates.add(root.get("wordId").in(wordIds));
+            predicates.add(root.get("userWordId").in(wordIds));
         }
 
         if (Range.hasFrom(date)) {

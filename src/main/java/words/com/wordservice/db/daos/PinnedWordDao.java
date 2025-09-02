@@ -16,5 +16,5 @@ public interface PinnedWordDao {
 
     void saveAll(Collection<PinnedWordEntity> entities);
 
-    void delete(Collection<PinnedWordEntity.PinnedWordId> ids);
+    void delete(PinnedWordSearch search);
 }

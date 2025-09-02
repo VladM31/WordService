@@ -1,5 +1,6 @@
 package words.com.wordservice.db.daos.impls;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,7 +30,8 @@ class PinnedWordDaoImpl implements PinnedWordDao {
     }
 
     @Override
-    public void delete(Collection<PinnedWordEntity.PinnedWordId> ids) {
-        repository.deleteAllById(ids);
+    @Transactional
+    public void delete(PinnedWordSearch search) {
+        repository.delete(search);
     }
 }

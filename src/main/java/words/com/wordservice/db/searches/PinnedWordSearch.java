@@ -26,11 +26,16 @@ public class PinnedWordSearch implements Specification<PinnedWordEntity> {
     private Collection<String> wordIds;
     @Singular(ignoreNullCollections = true)
     private Collection<String> userWordIds;
+    @Singular(ignoreNullCollections = true)
+    private Collection<PinnedWordEntity.PinnedWordId> pinnedIds;
 
     @Override
     public Predicate toPredicate(@NonNull Root<PinnedWordEntity> root, CriteriaQuery<?> query,@NonNull CriteriaBuilder cb) {
         ArrayList<Predicate> predicates = new ArrayList<>();
 
+        if (!CollectionUtils.isEmpty(pinnedIds)) {
+            predicates.add(root.get("id").in(pinnedIds));
+        }
         if (!CollectionUtils.isEmpty(playListIds)) {
             predicates.add(root.get("id").get("playListId").in(playListIds));
         }
