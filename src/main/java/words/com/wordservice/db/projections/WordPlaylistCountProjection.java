@@ -1,5 +1,6 @@
 package words.com.wordservice.db.projections;
 
+import java.time.Instant;
 import java.time.OffsetDateTime;
 
 public interface WordPlaylistCountProjection {
@@ -9,7 +10,7 @@ public interface WordPlaylistCountProjection {
 
     String getName();
 
-    OffsetDateTime getCreatedAt();
+    Instant getCreatedAt();
 
     Long getCount();
 }

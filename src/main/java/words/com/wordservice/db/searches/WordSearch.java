@@ -87,27 +87,28 @@ public class WordSearch implements Specification<WordEntity> {
         }
 
         if (hasUserId()) {
-            Join<WordEntity, UserWordEntity> userWordJoin = root.join("word", JoinType.LEFT);
+            Subquery<String> sub = query.subquery(String.class);
+            Root<UserWordEntity> uw = sub.from(UserWordEntity.class);
+            sub.select(uw.get("word").get("id"))
+                    .where(cb.equal(uw.get("userId"), userId.id));
+
             if (userId.isIn()) {
-                predicates.add(cb.equal(userWordJoin.get("userId"), userId.getId()));
-            } else {
-                predicates.add(cb.or(
-                        cb.notEqual(userWordJoin.get("userId"), userId.getId()),
-                        cb.isNull(userWordJoin.get("userId"))
-                ));
+                predicates.add(root.get("id").in(sub));
+            } else  {
+                predicates.add(cb.not(root.get("id").in(sub)));
             }
         }
 
         return predicates.isEmpty() ? null : cb.and(predicates.toArray(new Predicate[0]));
     }
 
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserId{
-        private boolean isIn;
-        @NonNull
-        private String id;
+
+    public record UserId(
+            boolean isIn,
+            @NonNull
+            String id
+    ){
+
     }
 
     public boolean hasUserId(){

@@ -77,7 +77,7 @@ public class UserWordDomainMapper {
         return new LearningHistoryEntity(
                 UUID.randomUUID().toString(),
                 model.userId(),
-                model.wordId(),
+                model.word().id(),
                 LocalDate.now(ZoneId.of("UTC")),
                 OffsetTime.now(),
                 LearningHistoryType.CREATE,

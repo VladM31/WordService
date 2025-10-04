@@ -12,6 +12,7 @@ import words.com.wordservice.domain.models.enums.Language;
 import words.com.wordservice.domain.models.enums.WordType;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -44,4 +45,7 @@ public class WordEntity {
     @CreatedDate
     @Column(updatable = false)
     private OffsetDateTime createdAt;
+
+    @OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
+    private List<UserWordEntity> userWords;
 }

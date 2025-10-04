@@ -17,7 +17,7 @@ interface UserWordRepository extends ListCrudRepository<UserWordEntity, String>,
            "SET u.learningGrade = u.learningGrade + :value, u.lastReadDate = :lastReadDate " +
            "WHERE u.id = :id AND u.userId = :userId")
     @Modifying
-    void updateGrade(long value, OffsetDateTime lastReadDate, String id, String userId);
+    int updateGrade(long value, OffsetDateTime lastReadDate, String id, String userId);
 
 
     @Modifying
@@ -38,6 +38,6 @@ interface UserWordRepository extends ListCrudRepository<UserWordEntity, String>,
             @Param("lastReadDate") OffsetDateTime lastReadDate,
             @Param("learningGrade") long learningGrade,
             @Param("userId") String userId,
-            @Param("userWordId") String wordId
+            @Param("wordId") String wordId
     );
 }

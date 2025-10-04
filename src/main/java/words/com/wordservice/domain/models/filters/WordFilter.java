@@ -36,7 +36,7 @@ public record WordFilter(
 
     public record UserId(
             @NonNull
-            String userId,
+            String id,
             boolean isIn
     ) {
     }

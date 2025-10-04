@@ -3,6 +3,7 @@ package words.com.wordservice.domain.mappers;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
 import words.com.wordservice.db.entities.PinnedWordEntity;
@@ -16,20 +17,19 @@ import words.com.wordservice.domain.models.playlist.WordPlayList;
 import words.com.wordservice.domain.models.playlist.WordPlayListCount;
 import words.com.wordservice.domain.models.words.PinnedWord;
 
-import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 @Component
+@RequiredArgsConstructor
 public class WordPlayListDomainMapper {
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private final UserWordDomainMapper userWordDomainMapper;
 
     public WordPlayList toModel(WordPlayListEntity entity) {
         return toModel(entity, Collections.emptyMap());
@@ -51,13 +51,18 @@ public class WordPlayListDomainMapper {
                 projection.getId(),
                 projection.getUserId(),
                 projection.getName(),
-                projection.getCreatedAt(),
+                projection.getCreatedAt().atOffset(ZoneOffset.UTC),
                 projection.getCount()
         );
     }
 
     private PinnedWord toPinnedWordModel(PinnedWordEntity entity) {
-        return objectMapper.convertValue(entity, PinnedWord.class);
+        return new PinnedWord(
+                entity.getLearningGrade(),
+                entity.getCreatedAt(),
+                entity.getLastReadDate(),
+                userWordDomainMapper.toModel(entity.getWord())
+        );
     }
 
     public WordPlayListEntity toEntity(ModifyPlayList model) {
@@ -81,7 +86,11 @@ public class WordPlayListDomainMapper {
     }
 
     public UpdateUserWordGradeAction toAction(PlayListGrade model) {
-        return objectMapper.convertValue(model, UpdateUserWordGradeAction.class);
+        return new UpdateUserWordGradeAction(
+                model.wordId(),
+                model.userId(),
+                model.wordGrade()
+        );
     }
 
     public LearningHistoryEntity toEntity(PlayListGrade model) {

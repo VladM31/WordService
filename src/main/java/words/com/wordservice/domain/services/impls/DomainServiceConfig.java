@@ -22,12 +22,14 @@ public class DomainServiceConfig {
 
     @Bean
     UserWordService userWordServiceImpl(
+            WordDao wordDao,
             UserWordDao userWordDao,
             UserWordDomainMapper userWordDomainMapper,
             UserWordSearchMapper userWordSearchMapper,
             LearningHistoryDao learningHistoryDao
     ) {
         return new UserWordServiceImpl(
+                wordDao,
                 userWordDao,
                 userWordDomainMapper,
                 userWordSearchMapper,

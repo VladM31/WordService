@@ -2,6 +2,7 @@ package words.com.wordservice.domain.services.impls;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.util.CollectionUtils;
 import words.com.wordservice.db.daos.WordDao;
 import words.com.wordservice.domain.mappers.WordDomainMapper;
 import words.com.wordservice.domain.mappers.WordSearchMapper;
@@ -29,6 +30,9 @@ class WordServiceImpl implements WordService {
 
     @Override
     public void saveAll(Collection<ModifyWord> words) {
+        if (CollectionUtils.isEmpty(words)) {
+            return;
+        }
         var entities = words.stream()
                 .map(wordDomainMapper::toEntity)
                 .toList();

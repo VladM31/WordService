@@ -17,7 +17,7 @@ public class DbDaoConfig {
             UserWordRepository userWordRepository,
             WordRepository wordRepository
     ) {
-        return new UserWordDaoImpl(userWordRepository,wordRepository);
+        return new UserWordDaoImpl(userWordRepository, wordRepository);
     }
 
     @Bean
@@ -29,9 +29,11 @@ public class DbDaoConfig {
 
     @Bean
     WordPlayListDao wordPlayListDaoImpl(
-            WordPlayListRepository wordPlayListRepository
+            WordPlayListRepository wordPlayListRepository,
+            PinnedWordRepository pinnedWordRepository,
+            UserWordRepository userWordRepository
     ) {
-        return new WordPlayListDaoImpl(wordPlayListRepository);
+        return new WordPlayListDaoImpl(wordPlayListRepository, pinnedWordRepository, userWordRepository);
     }
 
     @Bean

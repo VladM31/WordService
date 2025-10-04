@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 import java.util.Collection;
 
 
-interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity,String>,
+interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, String>,
         JpaSpecificationExecutor<WordPlayListEntity> {
 
     String SELECT_COUNT =
@@ -37,19 +37,6 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity,S
                         (:toCount is null or COUNT(pw.user_word_id) < :toCount) AND
                         (:fromCount is null or COUNT(pw.user_word_id) > :fromCount)
                     """;
-
-
-    @Query(value = """
-            update pinned_word pw\s
-            INNER JOIN user_words uw ON pw.word_id = uw.id\s
-            SET\s
-            pw.learning_grade = pw.learning_grade + :gradeValue,
-            uw.learning_grade = uw.learning_grade + :gradeValue,
-            pw.last_read_date = :lastReadDate,
-            uw.last_read_date = :lastReadDate
-            WHERE uw.id = :userWordId AND uw.user_id = :userId ;""", nativeQuery = true)
-    @Modifying
-    void updateGrade(long gradeValue, OffsetDateTime lastReadDate, String userWordId, String userId);
 
     @Query(value = SELECT_COUNT, nativeQuery = true)
     Page<WordPlaylistCountProjection> findPlayListsWithCount(

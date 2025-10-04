@@ -9,7 +9,5 @@ public record DeleteWordOptions(
         WordType type
 ) {
 
-    public static DeleteWordOptions ofAdministrator(Collection<String> ids) {
-        return new DeleteWordOptions(ids, WordType.PUBLIC);
-    }
+
 }

@@ -12,6 +12,7 @@ import words.com.wordservice.domain.models.words.Word;
 
 import java.time.OffsetDateTime;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -56,7 +57,8 @@ public class WordDomainMapper {
                 model.type(),
                 model.cefr(),
                 model.description(),
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                Collections.emptyList()
         );
     }
 

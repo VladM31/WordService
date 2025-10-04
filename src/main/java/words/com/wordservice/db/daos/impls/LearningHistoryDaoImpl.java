@@ -6,9 +6,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.CollectionUtils;
 import words.com.wordservice.db.daos.LearningHistoryDao;
-import words.com.wordservice.db.entities.history.CountLearningHistoryEntity;
+import words.com.wordservice.db.entities.history.CountLearningHistoryProjection;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
-import words.com.wordservice.db.entities.history.StatisticsLearningHistoryEntity;
+import words.com.wordservice.db.entities.history.StatisticsLearningHistoryProjection;
 import words.com.wordservice.db.searches.history.CountLearningHistorySearch;
 import words.com.wordservice.db.searches.history.LearningHistorySearch;
 import words.com.wordservice.db.searches.history.StatisticsLearningHistorySearch;
@@ -21,7 +21,7 @@ import java.util.List;
 class LearningHistoryDaoImpl implements LearningHistoryDao {
     private final LearningHistoryRepository repository;
     @Override
-    public List<StatisticsLearningHistoryEntity> findBy(StatisticsLearningHistorySearch search) {
+    public List<StatisticsLearningHistoryProjection> findBy(StatisticsLearningHistorySearch search) {
         return findBy(search, Pageable.unpaged()).getContent();
     }
 
@@ -31,12 +31,12 @@ class LearningHistoryDaoImpl implements LearningHistoryDao {
     }
 
     @Override
-    public List<CountLearningHistoryEntity> findBy(CountLearningHistorySearch search) {
+    public List<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search) {
         return findBy(search, Pageable.unpaged()).getContent();
     }
 
     @Override
-    public Page<StatisticsLearningHistoryEntity> findBy(StatisticsLearningHistorySearch search, Pageable pageable) {
+    public Page<StatisticsLearningHistoryProjection> findBy(StatisticsLearningHistorySearch search, Pageable pageable) {
         return repository.findStatisticsBy(
                 CollectionUtils.isEmpty(search.getUserIds()),
                 CollectionUtils.isEmpty(search.getUserIds()) ? null : search.getUserIds(),
@@ -51,7 +51,7 @@ class LearningHistoryDaoImpl implements LearningHistoryDao {
     }
 
     @Override
-    public Page<CountLearningHistoryEntity> findBy(CountLearningHistorySearch search, Pageable pageable) {
+    public Page<CountLearningHistoryProjection> findBy(CountLearningHistorySearch search, Pageable pageable) {
         return repository.findCountBy(
                 CollectionUtils.isEmpty(search.getUserIds()),
                 CollectionUtils.isEmpty(search.getUserIds()) ? null : search.getUserIds(),

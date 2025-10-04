@@ -7,7 +7,6 @@ import lombok.Builder;
 public record ModifyUserWord(
         String id,
         String userId,
-        String wordId,
 
         String soundFileName,
         String imageFileName,

@@ -1,5 +1,6 @@
 package words.com.wordservice.domain.models.filters;
 
+import lombok.Builder;
 import lombok.Singular;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.Language;
@@ -8,6 +9,7 @@ import words.com.wordservice.domain.models.enums.sortfileds.UserWordSortField;
 
 import java.util.Collection;
 
+@Builder(toBuilder = true)
 public record UserWordFilter(
         @Singular(ignoreNullCollections = true)
         Collection<String> userWordIds,

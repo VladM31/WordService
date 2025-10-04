@@ -22,6 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 class WordPlayListDaoImpl implements WordPlayListDao {
     private final WordPlayListRepository repository;
+    private final PinnedWordRepository pinnedWordRepository;
+    private final UserWordRepository userWordRepository;
 
     @Override
     public Page<WordPlayListEntity> findBy(WordPlayListSearch search, Pageable pageable) {
@@ -76,7 +78,9 @@ class WordPlayListDaoImpl implements WordPlayListDao {
     public void updateGrades(Collection<UpdateUserWordGradeAction> actions) {
         OffsetDateTime lastReadDate = OffsetDateTime.now();
         for (UpdateUserWordGradeAction action : actions) {
-            repository.updateGrade(action.value(), lastReadDate, action.userWordId(), action.userId());
+            if (userWordRepository.updateGrade(action.value(), lastReadDate, action.userWordId(), action.userId()) > 0){
+                pinnedWordRepository.updateGrade(action.value(), lastReadDate, action.userWordId());
+            }
         }
     }
 

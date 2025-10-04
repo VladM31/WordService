@@ -1,9 +1,12 @@
 package words.com.wordservice.domain.services.impls;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import words.com.wordservice.db.daos.LearningHistoryDao;
 import words.com.wordservice.db.daos.UserWordDao;
+import words.com.wordservice.db.daos.WordDao;
+import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.domain.mappers.UserWordDomainMapper;
 import words.com.wordservice.domain.mappers.UserWordSearchMapper;
 import words.com.wordservice.domain.models.filters.UserWordFilter;
@@ -14,6 +17,7 @@ import java.util.Collection;
 
 @RequiredArgsConstructor
 class UserWordServiceImpl implements UserWordService {
+    private final WordDao wordDao;
     private final UserWordDao userWordDao;
     private final UserWordDomainMapper userWordDomainMapper;
     private final UserWordSearchMapper userWordSearchMapper;
@@ -28,11 +32,18 @@ class UserWordServiceImpl implements UserWordService {
     }
 
     @Override
+    @Transactional
     public void save(Collection<ModifyUserWord> userWords) {
-        var entities = userWords.stream()
+        var userWordEntities = userWords.stream()
                 .map(userWordDomainMapper::toEntity)
                 .toList();
-        userWordDao.saveAll(entities);
+
+        var wordEntities = userWordEntities.stream()
+                .map(UserWordEntity::getWord)
+                .toList();
+
+        wordDao.saveAll(wordEntities);
+        userWordDao.saveAll(userWordEntities);
 
         var historyEntities = userWords.stream()
                 .map(userWordDomainMapper::toLearningHistoryEntity)

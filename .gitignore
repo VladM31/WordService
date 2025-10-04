@@ -43,3 +43,4 @@ build/
 /src/main/java/words/com/wordservice/postconfigs/ReadStarter.java
 /src/main/java/words/com/wordservice/postconfigs/RunTest.java
 /src/main/java/words/com/wordservice/postconfigs/DevSetting.java
+/src/main/resources/application-cloud.properties

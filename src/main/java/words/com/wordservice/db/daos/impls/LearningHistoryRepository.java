@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
-import words.com.wordservice.db.entities.history.CountLearningHistoryEntity;
+import words.com.wordservice.db.entities.history.CountLearningHistoryProjection;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
-import words.com.wordservice.db.entities.history.StatisticsLearningHistoryEntity;
+import words.com.wordservice.db.entities.history.StatisticsLearningHistoryProjection;
 
 import java.time.LocalDate;
 
@@ -30,7 +30,7 @@ interface LearningHistoryRepository extends ListCrudRepository<LearningHistoryEn
                     " group by lh.type";
 
     @Query(value = SELECT_STATISTICS_LEARNING_HISTORY, nativeQuery = true)
-    Page<StatisticsLearningHistoryEntity> findStatisticsBy(
+    Page<StatisticsLearningHistoryProjection> findStatisticsBy(
             boolean isEmptyUserIds,
             java.util.Collection<String> userIds,
             LocalDate startDate,
@@ -39,7 +39,7 @@ interface LearningHistoryRepository extends ListCrudRepository<LearningHistoryEn
     );
 
     @Query(value = SELECT_COUNT_LEARNING_HISTORY, nativeQuery = true)
-    Page<CountLearningHistoryEntity> findCountBy(
+    Page<CountLearningHistoryProjection> findCountBy(
             boolean isEmptyUserIds,
             java.util.Collection<String> userIds,
             Pageable pageable
