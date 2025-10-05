@@ -5,10 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
-import words.com.wordservice.api.requests.words.DeleteWordRequest;
 import words.com.wordservice.api.requests.words.CreateWordRequest;
+import words.com.wordservice.api.requests.words.DeleteWordRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
 import words.com.wordservice.api.responds.WordRespond;
+import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.enums.WordType;
 import words.com.wordservice.domain.models.filters.WordFilter;
 import words.com.wordservice.domain.models.words.DeleteWordOptions;
@@ -35,6 +36,9 @@ public class WordApiMapper {
         if (user == null || !user.role().equals(Role.ADMINISTRATION)){
             builder.types(Collections.singleton(WordType.PUBLIC));
         }
+        DecodeUtils.decode(builder::original, request::original);
+        DecodeUtils.decode(builder::translate, request::translate);
+        DecodeUtils.decodeCollection(builder::categories, request::categories);
 
         return objectMapper.convertValue(builder.build(), WordFilter.class);
     }

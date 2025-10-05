@@ -1,12 +1,8 @@
 package words.com.wordservice.api.mappers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestBody;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.words.CreateUserWordRequest;
@@ -14,17 +10,15 @@ import words.com.wordservice.api.requests.words.DeleteUserWordRequest;
 import words.com.wordservice.api.requests.words.PinUserWordRequest;
 import words.com.wordservice.api.requests.words.UserWordFilterRequest;
 import words.com.wordservice.api.responds.UserWordRespond;
+import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.filters.UserWordFilter;
 import words.com.wordservice.domain.models.words.DeleteUserWordOptions;
 import words.com.wordservice.domain.models.words.ModifyUserWord;
 import words.com.wordservice.domain.models.words.PinUserWord;
 import words.com.wordservice.domain.models.words.UserWord;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.Collections;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -36,9 +30,9 @@ public class UserWordApiMapper {
 
     public UserWordFilter toFilter(User user, UserWordFilterRequest getRequest) {
         var filterBuilder = objectMapper.convertValue(getRequest, UserWordFilter.class).toBuilder();
-        decode(filterBuilder::original, getRequest::original);
-        decode(filterBuilder::translate, getRequest::translate);
-        decodeCollection(filterBuilder::categories, getRequest::categories);
+        DecodeUtils.decode(filterBuilder::original, getRequest::original);
+        DecodeUtils.decode(filterBuilder::translate, getRequest::translate);
+        DecodeUtils.decodeCollection(filterBuilder::categories, getRequest::categories);
 
         if (Role.ADMINISTRATION != user.role()){
             filterBuilder.userIds(Collections.singleton(user.id()));
@@ -70,20 +64,7 @@ public class UserWordApiMapper {
         );
     }
 
-    private void decode(Consumer<String> setter, Supplier<String> getter) {
-        if (StringUtils.hasText(getter.get())) {
-            setter.accept(URLDecoder.decode(getter.get(), StandardCharsets.UTF_8));
-        }
-    }
 
-    private void decodeCollection(Consumer<Collection<String>> setter, Supplier<Collection<String>> getter) {
-        if (CollectionUtils.isEmpty(getter.get())) {
-            return;
-        }
-        var listValues = new ArrayList<>(getter.get());
-        listValues.replaceAll(s -> URLDecoder.decode(s, StandardCharsets.UTF_8));
-        setter.accept(listValues);
-    }
 
     public DeleteUserWordOptions toOptions(DeleteUserWordRequest request, String userId) {
         return new DeleteUserWordOptions(
