@@ -9,6 +9,7 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.playlist.*;
 import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
 import words.com.wordservice.api.responds.playlist.PlayListRespond;
+import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.filters.WordPlayListCountFilter;
 import words.com.wordservice.domain.models.filters.WordPlayListFilter;
 import words.com.wordservice.domain.models.playlist.ModifyPlayList;
@@ -16,7 +17,6 @@ import words.com.wordservice.domain.models.playlist.PlayListGrade;
 import words.com.wordservice.domain.models.playlist.WordPlayList;
 import words.com.wordservice.domain.models.playlist.WordPlayListCount;
 
-import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -26,29 +26,35 @@ public class PlayListApiMapper {
             .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    public WordPlayListCountFilter toCountFilter(@NonNull User user, PlayListCountGetRequest getRequest){
-        if (user.role().equals(Role.CUSTOMER)){
+    public WordPlayListCountFilter toCountFilter(@NonNull User user, PlayListCountGetRequest getRequest) {
+        if (user.role().equals(Role.CUSTOMER)) {
             getRequest = getRequest.withUserIds(Collections.singleton(user.id()));
         }
-        return objectMapper.convertValue(getRequest, WordPlayListCountFilter.class);
+        var builder = objectMapper.convertValue(getRequest, WordPlayListCountFilter.class).toBuilder();
+        DecodeUtils.decode(builder::name, getRequest::name);
+
+        return builder.build();
     }
 
-    public WordPlayListFilter toFilter(@NonNull User user, PlayListGetRequest getRequest){
-        if (user.role().equals(Role.CUSTOMER)){
+    public WordPlayListFilter toFilter(@NonNull User user, PlayListGetRequest getRequest) {
+        if (user.role().equals(Role.CUSTOMER)) {
             getRequest = getRequest.withUserIds(Collections.singleton(user.id()));
         }
-        return objectMapper.convertValue(getRequest, WordPlayListFilter.class);
+        var builder = objectMapper.convertValue(getRequest, WordPlayListFilter.class).toBuilder();
+        DecodeUtils.decode(builder::name, getRequest::name);
+
+        return builder.build();
     }
 
-    public PlayListCountRespond toRespond(WordPlayListCount model){
+    public PlayListCountRespond toRespond(WordPlayListCount model) {
         return objectMapper.convertValue(model, PlayListCountRespond.class);
     }
 
-    public PlayListRespond toRespond(WordPlayList model){
+    public PlayListRespond toRespond(WordPlayList model) {
         return objectMapper.convertValue(model, PlayListRespond.class);
     }
 
-    public ModifyPlayList toModifyPlayList(@NonNull User user, @NonNull UpdatePlayListRequest request){
+    public ModifyPlayList toModifyPlayList(@NonNull User user, @NonNull UpdatePlayListRequest request) {
         return new ModifyPlayList(
                 request.id(),
                 user.id(),
@@ -56,7 +62,7 @@ public class PlayListApiMapper {
         );
     }
 
-    public ModifyPlayList toModifyPlayList(@NonNull User user, PlayListCreateRequest request){
+    public ModifyPlayList toModifyPlayList(@NonNull User user, PlayListCreateRequest request) {
         return new ModifyPlayList(
                 UUID.randomUUID().toString(),
                 user.id(),
@@ -64,7 +70,7 @@ public class PlayListApiMapper {
         );
     }
 
-    public PlayListGrade toPlayListGrade(@NonNull User user, PlayListGradeRequest request){
+    public PlayListGrade toPlayListGrade(@NonNull User user, PlayListGradeRequest request) {
         return new PlayListGrade(
                 request.wordId(),
                 user.id(),

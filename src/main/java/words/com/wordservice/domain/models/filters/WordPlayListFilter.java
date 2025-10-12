@@ -1,9 +1,11 @@
 package words.com.wordservice.domain.models.filters;
 
+import lombok.Builder;
 import words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField;
 
 import java.util.Collection;
 
+@Builder(toBuilder = true)
 public record WordPlayListFilter(
         Collection<String> ids,
         Collection<String> userIds,
