@@ -4,10 +4,9 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.With;
+import words.com.wordservice.api.requests.utils.LongRange;
 import words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField;
-import words.com.wordservice.utils.Range;
 
-import java.util.Collection;
 import java.util.Set;
 
 public record PlayListCountGetRequest(
@@ -15,7 +14,7 @@ public record PlayListCountGetRequest(
         @With
         Set<String> userIds,
         String name,
-        Range<Long> count,
+        LongRange count,
 
         @NotNull(message = "Sort field must be specified")
         WordPlaylistSortField sortField,
