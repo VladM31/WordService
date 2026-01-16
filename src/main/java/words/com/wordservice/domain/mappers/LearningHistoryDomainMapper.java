@@ -6,6 +6,7 @@ import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.db.entities.history.CountLearningHistoryProjection;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
 import words.com.wordservice.db.entities.history.StatisticsLearningHistoryProjection;
+import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.Language;
 import words.com.wordservice.domain.models.history.CountLearningHistory;
 import words.com.wordservice.domain.models.history.LearningHistory;
@@ -26,7 +27,7 @@ public class LearningHistoryDomainMapper {
                 optWord.map(WordEntity::getOriginal).orElse("Unknown word"),
                 optWord.map(WordEntity::getTranslateLang).orElse(Language.UNDEFINED),
                 optWord.map(WordEntity::getLang).orElse(Language.UNDEFINED),
-                optWord.map(WordEntity::getCefr).orElse(null),
+                optWord.map(WordEntity::getCefr).orElse(CEFR.A1),
                 entity.getDate(),
                 entity.getType(),
                 entity.getGrade()

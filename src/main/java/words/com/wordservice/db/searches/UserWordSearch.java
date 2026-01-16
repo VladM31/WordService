@@ -38,11 +38,13 @@ public class UserWordSearch implements Specification<UserWordEntity> {
     @Singular(ignoreNullCollections = true)
     private Collection<WordType> types;
 
+
     private String translate;
     private String original;
 
     private Boolean hasSound;
     private Boolean hasImage;
+    private Operations operation;
 
     @Nullable
     @Override
@@ -109,6 +111,13 @@ public class UserWordSearch implements Specification<UserWordEntity> {
             ));
         }
 
-        return predicates.isEmpty() ? null : cb.and(predicates.toArray(new Predicate[0]));
+        if (predicates.isEmpty()) {
+            return null;
+        }
+        if (operation == Operations.OR) {
+            return cb.or(predicates.toArray(new Predicate[0]));
+        }
+
+        return cb.and(predicates.toArray(new Predicate[0]));
     }
 }
