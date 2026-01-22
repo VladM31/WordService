@@ -8,6 +8,7 @@ import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
 import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
+import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
 import words.com.wordservice.domain.models.words.*;
 
@@ -71,6 +72,14 @@ public class UserWordDomainMapper {
                 model.wordId(),
                 model.userId()
         );
+    }
+
+    public UserWordSearch toSearch(DeleteUserWordOptions options) {
+        return UserWordSearch.builder()
+                .userWordId(options.id())
+                .wordId(options.wordId())
+                .userId(options.userId())
+                .build();
     }
 
     public LearningHistoryEntity toLearningHistoryEntity(ModifyUserWord model) {

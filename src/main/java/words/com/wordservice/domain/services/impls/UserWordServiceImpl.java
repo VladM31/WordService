@@ -4,9 +4,13 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import words.com.wordservice.db.daos.LearningHistoryDao;
+import words.com.wordservice.db.daos.PinnedWordDao;
 import words.com.wordservice.db.daos.UserWordDao;
 import words.com.wordservice.db.daos.WordDao;
 import words.com.wordservice.db.entities.UserWordEntity;
+import words.com.wordservice.db.searches.Operations;
+import words.com.wordservice.db.searches.PinnedWordSearch;
+import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.domain.mappers.UserWordDomainMapper;
 import words.com.wordservice.domain.mappers.UserWordSearchMapper;
 import words.com.wordservice.domain.models.filters.UserWordFilter;
@@ -22,6 +26,7 @@ class UserWordServiceImpl implements UserWordService {
     private final UserWordDomainMapper userWordDomainMapper;
     private final UserWordSearchMapper userWordSearchMapper;
     private final LearningHistoryDao learningHistoryDao;
+    private final PinnedWordDao pinnedWordDao;
 
     @Override
     public Page<UserWord> findBy(UserWordFilter filter) {
@@ -87,9 +92,28 @@ class UserWordServiceImpl implements UserWordService {
 
     @Override
     public void delete(Collection<DeleteUserWordOptions> userWords) {
-        var actions = userWords.stream()
-                .map(userWordDomainMapper::toAction)
+        var searches = userWords.stream()
+                .map(userWordDomainMapper::toSearch)
                 .toList();
-        userWordDao.delete(actions);
+        if (searches.isEmpty()) {
+            return;
+        }
+        var search = UserWordSearch.builder()
+                .operation(Operations.OR)
+                .searches(searches)
+                .build();
+        var words = userWordDao.findBy(search);
+        if (words.isEmpty()) {
+            return;
+        }
+        var userWordIds = words.stream().map(UserWordEntity::getId).toList();
+
+        var deleteSearch = PinnedWordSearch.builder()
+                .userWordIds(userWordIds)
+                .build();
+        pinnedWordDao.delete(deleteSearch);
+        userWordDao.delete(words);
+
     }
+
 }

@@ -33,5 +33,7 @@ public interface UserWordDao {
 
     void delete(Collection<DeleteUserWordAction> actions);
 
+    void delete(List<UserWordEntity> entities);
+
     long count(UserWordSearch s);
 }

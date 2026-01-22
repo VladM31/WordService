@@ -13,6 +13,10 @@ import words.com.wordservice.db.searches.history.StatisticsLearningHistorySearch
 import words.com.wordservice.domain.models.filters.history.CountLearningHistoryFilter;
 import words.com.wordservice.domain.models.filters.history.LearningHistoryFilter;
 import words.com.wordservice.domain.models.filters.history.StatisticsLearningHistoryFilter;
+import words.com.wordservice.utils.Range;
+
+import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Component
 public class LearningHistorySearchMapper {
@@ -38,7 +42,20 @@ public class LearningHistorySearchMapper {
     }
 
     public StatisticsLearningHistorySearch toSearch(StatisticsLearningHistoryFilter filter) {
-        return modelMapper.convertValue(filter, StatisticsLearningHistorySearch.class);
+        return StatisticsLearningHistorySearch.builder()
+                .userIds(filter.userIds())
+                .date(toLocalDateRange(filter.date()))
+                .build();
+    }
+
+    private Range<LocalDate> toLocalDateRange(Range<OffsetDateTime> range) {
+        if (range == null) {
+            return null;
+        }
+        return Range.<LocalDate>builder()
+                .from(range.getFrom() != null ? range.getFrom().toLocalDate() : null)
+                .to(range.getTo() != null ? range.getTo().toLocalDate() : null)
+                .build();
     }
 
     public CountLearningHistorySearch toSearch(CountLearningHistoryFilter filter) {

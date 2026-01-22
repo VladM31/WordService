@@ -18,8 +18,8 @@ interface LearningHistoryRepository extends ListCrudRepository<LearningHistoryEn
             "SELECT count(lh.id) as count, sum(lh.grade) as grades, lh.type, lh.date from learning_history lh" +
                     " WHERE " +
                     " (:isEmptyUserIds OR lh.user_id in(:userIds)) " +
-                    " AND (:startDate IS NULL OR lh.date >= :startDate)" +
-                    " AND (:endDate IS NULL OR lh.date <= :endDate)" +
+                    " AND (CAST(:startDate AS DATE) IS NULL OR lh.date >= :startDate)" +
+                    " AND (CAST(:endDate AS DATE) IS NULL OR lh.date <= :endDate)" +
                     " group by lh.date, lh.type" +
                     " order by lh.date, lh.type ";
 

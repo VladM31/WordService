@@ -26,14 +26,16 @@ public class DomainServiceConfig {
             UserWordDao userWordDao,
             UserWordDomainMapper userWordDomainMapper,
             UserWordSearchMapper userWordSearchMapper,
-            LearningHistoryDao learningHistoryDao
+            LearningHistoryDao learningHistoryDao,
+            PinnedWordDao pinnedWordDao
     ) {
         return new UserWordServiceImpl(
                 wordDao,
                 userWordDao,
                 userWordDomainMapper,
                 userWordSearchMapper,
-                learningHistoryDao
+                learningHistoryDao,
+                pinnedWordDao
         );
     }
 

@@ -107,6 +107,11 @@ class UserWordDaoImpl implements UserWordDao {
     }
 
     @Override
+    public void delete(List<UserWordEntity> entities) {
+        repository.deleteAll(entities);
+    }
+
+    @Override
     public long count(UserWordSearch s) {
         return repository.count(s);
     }

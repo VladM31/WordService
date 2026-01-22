@@ -37,6 +37,8 @@ public class UserWordSearch implements Specification<UserWordEntity> {
     private Collection<CEFR> cefrs;
     @Singular(ignoreNullCollections = true)
     private Collection<WordType> types;
+    @Singular(ignoreNullCollections = true)
+    private Collection<UserWordSearch> searches;
 
 
     private String translate;
@@ -78,6 +80,14 @@ public class UserWordSearch implements Specification<UserWordEntity> {
         if (!CollectionUtils.isEmpty(types)) {
             predicates.add(wordJoin.get("type").in(types));
         }
+        if (!CollectionUtils.isEmpty(searches)) {
+            searches.forEach(search -> {
+                Predicate subPredicate = search.toPredicate(root, query, cb);
+                if (subPredicate != null) {
+                    predicates.add(subPredicate);
+                }
+            });
+        }
 
         if (StringUtils.hasText(translate)) {
             predicates.add(cb.like(cb.lower(wordJoin.get("translate")), "%" + translate.toLowerCase() + "%"));
@@ -117,6 +127,7 @@ public class UserWordSearch implements Specification<UserWordEntity> {
         if (operation == Operations.OR) {
             return cb.or(predicates.toArray(new Predicate[0]));
         }
+
 
         return cb.and(predicates.toArray(new Predicate[0]));
     }
