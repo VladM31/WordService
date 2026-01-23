@@ -12,7 +12,7 @@ public enum Language {
     GERMAN("de"),
     FRENCH("fr"),
     UKRAINIAN("uk"),
-    RUSSIAN("ru"),
+    CZECH("cz"),
     UNDEFINED(null);
 
     private final String shortName;
