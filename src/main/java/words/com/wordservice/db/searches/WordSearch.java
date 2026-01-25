@@ -33,6 +33,8 @@ public class WordSearch implements Specification<WordEntity> {
     private Collection<CEFR> cefrs;
     @Singular(ignoreNullCollections = true)
     private Collection<WordType> types;
+    @Singular(ignoreNullCollections = true)
+    private Collection<WordSearch> searches;
 
     private String translate;
     private String original;
@@ -41,6 +43,8 @@ public class WordSearch implements Specification<WordEntity> {
 
     private Boolean hasSound;
     private Boolean hasImage;
+
+    private Operations operation;
 
     @Nullable
     @Override
@@ -98,8 +102,24 @@ public class WordSearch implements Specification<WordEntity> {
                 predicates.add(cb.not(root.get("id").in(sub)));
             }
         }
+        if (!CollectionUtils.isEmpty(searches)) {
+            for (WordSearch search : searches) {
+                var predicate = search.toPredicate(root, query, cb);
+                if (predicate != null) {
+                    predicates.add(predicate);
+                }
+            }
+        }
 
-        return predicates.isEmpty() ? null : cb.and(predicates.toArray(new Predicate[0]));
+        if (predicates.isEmpty()) {
+            return null;
+        }
+
+        if (Operations.OR.equals(operation)) {
+            return cb.or(predicates.toArray(new Predicate[0]));
+        }
+
+        return cb.and(predicates.toArray(new Predicate[0]));
     }
 
 
