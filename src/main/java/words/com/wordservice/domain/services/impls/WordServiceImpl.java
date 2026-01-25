@@ -3,7 +3,10 @@ package words.com.wordservice.domain.services.impls;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import words.com.wordservice.db.daos.WordDao;
+import words.com.wordservice.db.searches.Operations;
+import words.com.wordservice.db.searches.WordSearch;
 import words.com.wordservice.domain.mappers.WordDomainMapper;
 import words.com.wordservice.domain.mappers.WordSearchMapper;
 import words.com.wordservice.domain.models.filters.WordFilter;
@@ -13,6 +16,7 @@ import words.com.wordservice.domain.models.words.Word;
 import words.com.wordservice.domain.services.WordService;
 
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 class WordServiceImpl implements WordService {
@@ -33,7 +37,28 @@ class WordServiceImpl implements WordService {
         if (CollectionUtils.isEmpty(words)) {
             return;
         }
+        var originals = words.stream()
+                .map(ModifyWord::original)
+                .filter(StringUtils::hasText)
+                .distinct()
+                .toList();
+        if (CollectionUtils.isEmpty(originals)) {
+            return;
+        }
+        var searchBuilder = WordSearch.builder()
+                .operation(Operations.OR);
+        originals.stream()
+                .map(it -> WordSearch.builder().original(it).build())
+                .forEach(searchBuilder::search);
+        var search = searchBuilder.build();
+
+
+        var existsWords = wordDao.findBy(search).stream()
+                .map(it -> it.getOriginal().toLowerCase().trim())
+                .collect(Collectors.toSet());
+
         var entities = words.stream()
+                .filter(it -> !existsWords.contains(it.original().toLowerCase().trim()))
                 .map(wordDomainMapper::toEntity)
                 .toList();
         wordDao.saveAll(entities);
