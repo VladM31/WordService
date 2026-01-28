@@ -48,7 +48,7 @@ class WordServiceImpl implements WordService {
         var searchBuilder = WordSearch.builder()
                 .operation(Operations.OR);
         originals.stream()
-                .map(it -> WordSearch.builder().original(it).build())
+                .map(it -> WordSearch.builder().originalEq(it).build())
                 .forEach(searchBuilder::search);
         var search = searchBuilder.build();
 

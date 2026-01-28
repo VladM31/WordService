@@ -38,6 +38,7 @@ public class WordSearch implements Specification<WordEntity> {
 
     private String translate;
     private String original;
+    private String originalEq;
 
     private UserId userId;
 
@@ -75,6 +76,9 @@ public class WordSearch implements Specification<WordEntity> {
         }
         if (StringUtils.hasText(original)) {
             predicates.add(cb.like(cb.lower(root.get("original")), "%" + original.toLowerCase() + "%"));
+        }
+        if (StringUtils.hasText(originalEq)) {
+            predicates.add(cb.equal(cb.lower(root.get("original")), originalEq.toLowerCase()));
         }
 
         if (Boolean.TRUE.equals(hasSound)) {
