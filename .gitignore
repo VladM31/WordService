@@ -45,3 +45,4 @@ build/
 /src/main/java/words/com/wordservice/postconfigs/DevSetting.java
 /src/main/resources/application-cloud.properties
 /build
+/new_words.json
