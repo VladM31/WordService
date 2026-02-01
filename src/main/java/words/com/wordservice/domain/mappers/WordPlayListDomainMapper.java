@@ -126,7 +126,7 @@ public class WordPlayListDomainMapper {
                 entity.getLanguage(),
                 entity.getTranslateLanguage(),
                 PlayListVisibility.PRIVATE,
-                entity.getBaseId(),
+                entity.getId(),
                 entity.getAssociationId()
         );
     }
