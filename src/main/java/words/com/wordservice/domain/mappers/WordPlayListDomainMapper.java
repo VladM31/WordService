@@ -10,6 +10,7 @@ import words.com.wordservice.db.entities.PinnedWordEntity;
 import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
+import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
 import words.com.wordservice.domain.models.playlist.ModifyPlayList;
 import words.com.wordservice.domain.models.playlist.PlayListGrade;
@@ -18,10 +19,7 @@ import words.com.wordservice.domain.models.playlist.WordPlayListCount;
 import words.com.wordservice.domain.models.words.PinnedWord;
 
 import java.time.*;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @Component
 @RequiredArgsConstructor
@@ -57,8 +55,34 @@ public class WordPlayListDomainMapper {
                 projection.getUserId(),
                 projection.getName(),
                 projection.getCreatedAt().atOffset(ZoneOffset.UTC),
-                projection.getCount()
+                projection.getCount(),
+                parseStringTreeSet(projection.getTags()),
+                parseCefrTreeSet(projection.getCefrs()),
+                projection.getLanguage(),
+                projection.getTranslateLanguage()
         );
+    }
+
+    private TreeSet<String> parseStringTreeSet(String json) {
+        if (json == null || json.isEmpty() || "[]".equals(json)) {
+            return new TreeSet<>();
+        }
+        try {
+            return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(TreeSet.class, String.class));
+        } catch (Exception e) {
+            return new TreeSet<>();
+        }
+    }
+
+    private TreeSet<CEFR> parseCefrTreeSet(String json) {
+        if (json == null || json.isEmpty() || "[]".equals(json)) {
+            return new TreeSet<>();
+        }
+        try {
+            return objectMapper.readValue(json, objectMapper.getTypeFactory().constructCollectionType(TreeSet.class, CEFR.class));
+        } catch (Exception e) {
+            return new TreeSet<>();
+        }
     }
 
     private PinnedWord toPinnedWordModel(PinnedWordEntity entity) {

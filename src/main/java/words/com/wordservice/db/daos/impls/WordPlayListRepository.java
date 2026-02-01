@@ -3,13 +3,11 @@ package words.com.wordservice.db.daos.impls;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 
-import java.time.OffsetDateTime;
 import java.util.Collection;
 
 
@@ -23,7 +21,12 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
                         wp.user_id AS userId,
                         wp.name,
                         wp.created_at AS createdAt,
-                        COUNT(pw.user_word_id) as count
+                        COUNT(pw.user_word_id) as count,
+                        wp.tags,
+                        wp.cefrs,
+                        wp.language,
+                        wp.translate_language AS translateLanguage
+                    
                     FROM
                         word_playlists wp
                     LEFT JOIN

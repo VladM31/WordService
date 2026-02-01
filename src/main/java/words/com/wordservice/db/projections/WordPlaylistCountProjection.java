@@ -1,7 +1,8 @@
 package words.com.wordservice.db.projections;
 
+import words.com.wordservice.domain.models.enums.Language;
+
 import java.time.Instant;
-import java.time.OffsetDateTime;
 
 public interface WordPlaylistCountProjection {
     String getId();
@@ -13,4 +14,12 @@ public interface WordPlaylistCountProjection {
     Instant getCreatedAt();
 
     Long getCount();
+
+    String getTags();
+
+    String getCefrs();
+
+    Language getLanguage();
+
+    Language getTranslateLanguage();
 }
