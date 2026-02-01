@@ -32,9 +32,19 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
                     LEFT JOIN
                         pinned_word pw ON wp.id = pw.play_list_id
                     WHERE
-                       (:hasIds or wp.id in(:ids)) AND
-                       (:hasUserIds or wp.user_id in(:userIds)) AND
-                       (:name IS NULL OR wp.name LIKE CONCAT('%',:name,'%'))\s
+                       (:hasIds = true or wp.id in(:ids)) AND
+                       (:hasUserIds = true or wp.user_id in(:userIds)) AND
+                       (:name IS NULL OR wp.name ILIKE CONCAT('%',:name,'%')) AND
+                       (:hasCefrs = true or EXISTS (
+                           SELECT 1 FROM jsonb_array_elements_text(wp.cefrs::jsonb) AS elem
+                           WHERE elem IN (:cefrs)
+                       )) AND
+                       (:hasTags = true or EXISTS (
+                           SELECT 1 FROM jsonb_array_elements_text(wp.tags::jsonb) AS elem
+                           WHERE elem IN (:tags)
+                       )) AND
+                       (:language IS NULL OR wp.language = :language) AND
+                       (:translateLanguage IS NULL OR wp.translate_language = :translateLanguage)
                     GROUP BY  wp.id
                     HAVING
                         (:toCount is null or COUNT(pw.user_word_id) < :toCount) AND
@@ -50,6 +60,12 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
             String name,
             Long toCount,
             Long fromCount,
+            boolean hasCefrs,
+            Collection<String> cefrs,
+            boolean hasTags,
+            Collection<String> tags,
+            String language,
+            String translateLanguage,
             Pageable pageable
     );
 

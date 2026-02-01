@@ -17,6 +17,7 @@ import words.com.wordservice.utils.Range;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -45,6 +46,12 @@ class WordPlayListDaoImpl implements WordPlayListDao {
                 search.getName(),
                 Range.to(search.getCount()),
                 Range.from(search.getCount()),
+                CollectionUtils.isEmpty(search.getCefrs()),
+                search.getCefrs() != null ? search.getCefrs().stream().map(Enum::name).toList() : List.of(),
+                CollectionUtils.isEmpty(search.getTags()),
+                search.getTags() != null ? search.getTags() : Set.of(),
+                search.getLanguage() != null ? search.getLanguage().name() : null,
+                search.getTranslateLanguage() != null ? search.getTranslateLanguage().name() : null,
                 pageable
         );
     }
@@ -59,6 +66,12 @@ class WordPlayListDaoImpl implements WordPlayListDao {
                 search.getName(),
                 Range.to(search.getCount()),
                 Range.from(search.getCount()),
+                CollectionUtils.isEmpty(search.getCefrs()),
+                search.getCefrs() != null ? search.getCefrs().stream().map(Enum::name).toList() : List.of(),
+                CollectionUtils.isEmpty(search.getTags()),
+                search.getTags() != null ? search.getTags() : Set.of(),
+                search.getLanguage() != null ? search.getLanguage().name() : null,
+                search.getTranslateLanguage() != null ? search.getTranslateLanguage().name() : null,
                 Pageable.unpaged()
         ).getContent();
     }
