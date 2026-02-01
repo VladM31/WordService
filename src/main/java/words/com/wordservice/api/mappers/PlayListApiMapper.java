@@ -7,16 +7,14 @@ import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.playlist.*;
+import words.com.wordservice.api.responds.playlist.AssignedPlaylistRespond;
 import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
 import words.com.wordservice.api.responds.playlist.PlayListRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.enums.PlayListVisibility;
 import words.com.wordservice.domain.models.filters.WordPlayListCountFilter;
 import words.com.wordservice.domain.models.filters.WordPlayListFilter;
-import words.com.wordservice.domain.models.playlist.ModifyPlayList;
-import words.com.wordservice.domain.models.playlist.PlayListGrade;
-import words.com.wordservice.domain.models.playlist.WordPlayList;
-import words.com.wordservice.domain.models.playlist.WordPlayListCount;
+import words.com.wordservice.domain.models.playlist.*;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -89,5 +87,9 @@ public class PlayListApiMapper {
                 user.id(),
                 request.wordGrade()
         );
+    }
+
+    public AssignedPlaylistRespond toAssignedRespond(AssignedPlaylist assignedPlaylist) {
+        return new AssignedPlaylistRespond(assignedPlaylist.id());
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.PlayListApiMapper;
 import words.com.wordservice.api.requests.playlist.*;
+import words.com.wordservice.api.responds.playlist.AssignedPlaylistRespond;
 import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
 import words.com.wordservice.api.responds.playlist.PlayListRespond;
 import words.com.wordservice.domain.models.playlist.DeletePlayList;
@@ -61,6 +62,25 @@ public class PlayListController {
 
         return new PagedModel<>(paged);
     }
+
+    @GetMapping("/assigned")
+    public List<AssignedPlaylistRespond> getAssignedPlayLists(
+            @AuthenticationPrincipal User user
+    ) {
+        var assignedPlayLists = wordPlayListService.getAssignedPlaylists(user.id());
+        return assignedPlayLists.stream()
+                .map(playListApiMapper::toAssignedRespond)
+                .toList();
+    }
+
+    @PostMapping("/assign")
+    public void assignPlayLists(
+            @AuthenticationPrincipal User user,
+            @RequestBody @Valid AssignPlayListsRequest request) {
+        wordPlayListService.assignPlaylists(request.playListIds(), user.id());
+    }
+
+
 
     @PostMapping
     public void save(
