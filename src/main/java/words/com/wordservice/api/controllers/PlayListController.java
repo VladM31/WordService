@@ -67,8 +67,8 @@ public class PlayListController {
     public List<AssignedPlaylistRespond> getAssignedPlayLists(
             @AuthenticationPrincipal User user
     ) {
-        var assignedPlayLists = wordPlayListService.getAssignedPlaylists(user.id());
-        return assignedPlayLists.stream()
+        return wordPlayListService.getAssignedPlaylists(user.id())
+                .stream()
                 .map(playListApiMapper::toAssignedRespond)
                 .toList();
     }
