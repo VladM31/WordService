@@ -79,6 +79,11 @@ class WordPlayListDaoImpl implements WordPlayListDao {
     }
 
     @Override
+    public Set<String> getAssignedPlaylistIds(String userId) {
+        return Set.of();
+    }
+
+    @Override
     public void saveAll(Collection<WordPlayListEntity> entities) {
         repository.saveAll(entities);
     }

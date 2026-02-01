@@ -16,6 +16,7 @@ import words.com.wordservice.domain.models.playlist.*;
 import words.com.wordservice.domain.services.WordPlayListService;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -67,6 +68,19 @@ class WordPlayListServiceImpl implements WordPlayListService {
                 .map(wordPlayListDomainMapper::toUpdateEntity)
                 .collect(Collectors.toList());
         dao.updateAll(entities);
+    }
+
+    @Override
+    public void assignPlaylists(Collection<String> playListIds, String userId) {
+
+    }
+
+    @Override
+    public Set<AssignedPlaylist> getAssignedPlaylists(String userId) {
+        return dao.getAssignedPlaylistIds(userId)
+                .stream()
+                .map(AssignedPlaylist::new)
+                .collect(Collectors.toSet());
     }
 
     @Override

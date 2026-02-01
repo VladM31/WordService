@@ -27,7 +27,7 @@ public class PlayListApiMapper {
             .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-    public WordPlayListCountFilter toCountFilter(@NonNull User user, PublicPlayListCountGetRequest getRequest) {
+    public WordPlayListCountFilter toPublicFilter(PublicPlayListCountGetRequest getRequest) {
 
         var builder = objectMapper.convertValue(getRequest, WordPlayListCountFilter.class).toBuilder();
         DecodeUtils.decode(builder::name, getRequest::name);

@@ -9,6 +9,7 @@ import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 
 import java.util.Collection;
+import java.util.Set;
 
 
 interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, String>,
@@ -70,5 +71,8 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
             String visibility,
             Pageable pageable
     );
+
+    @Query(value = "SELECT wp.baseId FROM WordPlayListEntity wp WHERE wp.userId = :userId and wp.baseId is not null ")
+    Set<String> getAssignedPlaylistIds(String userId);
 
 }

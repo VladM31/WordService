@@ -6,6 +6,7 @@ import words.com.wordservice.domain.models.filters.WordPlayListFilter;
 import words.com.wordservice.domain.models.playlist.*;
 
 import java.util.Collection;
+import java.util.Set;
 
 
 public interface WordPlayListService {
@@ -17,6 +18,10 @@ public interface WordPlayListService {
     void saveAll(Collection<ModifyPlayList> playLists);
 
     void updateAll(Collection<ModifyPlayList> playLists);
+
+    void assignPlaylists(Collection<String> playListIds, String userId);
+
+    Set<AssignedPlaylist> getAssignedPlaylists(String userId);
 
     void updateGrades(Collection<PlayListGrade> grades);
 
