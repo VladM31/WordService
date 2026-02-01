@@ -37,7 +37,7 @@ public class PlayListApiMapper {
     }
 
     public WordPlayListFilter toFilter(@NonNull User user, PlayListGetRequest getRequest) {
-        if (user.role().equals(Role.CUSTOMER)) {
+        if (!Role.ADMINISTRATION.equals(user.role())) {
             getRequest = getRequest.withUserIds(Collections.singleton(user.id()));
         }
         var builder = objectMapper.convertValue(getRequest, WordPlayListFilter.class).toBuilder();
