@@ -44,7 +44,8 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
                            WHERE elem IN (:tags)
                        )) AND
                        (:language IS NULL OR wp.language = :language) AND
-                       (:translateLanguage IS NULL OR wp.translate_language = :translateLanguage)
+                       (:translateLanguage IS NULL OR wp.translate_language = :translateLanguage) AND
+                       (:visibility IS NULL OR wp.visibility = :visibility)
                     GROUP BY  wp.id
                     HAVING
                         (:toCount is null or COUNT(pw.user_word_id) < :toCount) AND
@@ -66,6 +67,7 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
             Collection<String> tags,
             String language,
             String translateLanguage,
+            String visibility,
             Pageable pageable
     );
 

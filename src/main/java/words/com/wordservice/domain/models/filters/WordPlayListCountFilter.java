@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Singular;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.Language;
+import words.com.wordservice.domain.models.enums.PlayListVisibility;
 import words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField;
 import words.com.wordservice.utils.Range;
 
@@ -24,6 +25,7 @@ public record WordPlayListCountFilter(
         Language translateLanguage,
         String name,
         Range<Long> count,
+        PlayListVisibility visibility,
 
         WordPlaylistSortField sortField,
         boolean asc,

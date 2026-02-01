@@ -47,3 +47,4 @@ build/
 /build
 /new_words.json
 /backup/
+/src/main/java/words/com/wordservice/Test.java

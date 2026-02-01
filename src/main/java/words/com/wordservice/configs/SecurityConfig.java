@@ -11,7 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import words.backend.authmodule.domain.factories.JwtAuthOncePerRequestFilterFactory;
-import words.backend.authmodule.domain.httpfilters.JwtAuthOncePerRequestFilter;
 import words.backend.authmodule.net.models.Role;
 
 @Configuration
@@ -38,7 +37,8 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET,
                                         "/", "/swagger-ui.html", "/swagger-ui/**",
-                                        "/v3/api-docs/**", "/actuator/info", "/words"
+                                        "/v3/api-docs/**", "/actuator/info", "/words",
+                                        "/play-list/count/public"
                                 ).permitAll()
                                 .anyRequest()
                                 .authenticated())

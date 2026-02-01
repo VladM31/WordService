@@ -3,6 +3,7 @@ package words.com.wordservice.db.searches;
 import lombok.*;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.Language;
+import words.com.wordservice.domain.models.enums.PlayListVisibility;
 import words.com.wordservice.utils.Range;
 
 import java.util.Collection;
@@ -25,4 +26,5 @@ public class WordPlayListCountSearch {
     private Set<String> tags;
     private Language language;
     private Language translateLanguage;
+    private PlayListVisibility visibility;
 }

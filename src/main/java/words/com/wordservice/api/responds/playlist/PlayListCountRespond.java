@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 public record PlayListCountRespond(
         String id,
-        String userId,
+//        String userId,
         String name,
         OffsetDateTime createdAt,
         Long count,

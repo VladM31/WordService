@@ -10,6 +10,7 @@ import words.com.wordservice.api.requests.playlist.*;
 import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
 import words.com.wordservice.api.responds.playlist.PlayListRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
+import words.com.wordservice.domain.models.enums.PlayListVisibility;
 import words.com.wordservice.domain.models.filters.WordPlayListCountFilter;
 import words.com.wordservice.domain.models.filters.WordPlayListFilter;
 import words.com.wordservice.domain.models.playlist.ModifyPlayList;
@@ -25,6 +26,18 @@ public class PlayListApiMapper {
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+    public WordPlayListCountFilter toCountFilter(@NonNull User user, PublicPlayListCountGetRequest getRequest) {
+
+        var builder = objectMapper.convertValue(getRequest, WordPlayListCountFilter.class).toBuilder();
+        DecodeUtils.decode(builder::name, getRequest::name);
+
+
+        return builder
+                .userId("system")
+                .visibility(PlayListVisibility.PUBLIC)
+                .build();
+    }
 
     public WordPlayListCountFilter toCountFilter(@NonNull User user, PlayListCountGetRequest getRequest) {
         if (user.role().equals(Role.CUSTOMER)) {

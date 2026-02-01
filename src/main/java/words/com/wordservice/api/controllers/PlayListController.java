@@ -30,7 +30,7 @@ public class PlayListController {
     @GetMapping
     public PagedModel<PlayListRespond> getPlayLists(
             @AuthenticationPrincipal User user,
-            PlayListGetRequest request
+            @Valid PlayListGetRequest request
     ) {
         var filter = playListApiMapper.toFilter(user, request);
         var paged = wordPlayListService.findBy(filter)
@@ -42,7 +42,19 @@ public class PlayListController {
     @GetMapping("/count")
     public PagedModel<PlayListCountRespond> getCountPlayLists(
             @AuthenticationPrincipal User user,
-            PlayListCountGetRequest request
+            @Valid PlayListCountGetRequest request
+    ) {
+        var filter = playListApiMapper.toCountFilter(user, request);
+        var paged = wordPlayListService.findBy(filter)
+                .map(playListApiMapper::toRespond);
+
+        return new PagedModel<>(paged);
+    }
+
+    @GetMapping("/count/public")
+    public PagedModel<PlayListCountRespond> getCountPlayLists(
+            @AuthenticationPrincipal User user,
+            @Valid PublicPlayListCountGetRequest request
     ) {
         var filter = playListApiMapper.toCountFilter(user, request);
         var paged = wordPlayListService.findBy(filter)
