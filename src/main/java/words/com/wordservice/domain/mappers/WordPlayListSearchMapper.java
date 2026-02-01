@@ -17,14 +17,14 @@ import words.com.wordservice.domain.utils.SortUtils;
 import java.util.Map;
 import java.util.Objects;
 
-import static words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField.CREATED_AT;
-import static words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField.NAME;
+import static words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField.*;
 
 @Component
 public class WordPlayListSearchMapper {
     private final Map<WordPlaylistSortField, String> sortFieldMap = Map.of(
             NAME, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getName),
-            CREATED_AT, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getCreatedAt)
+            CREATED_AT, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getCreatedAt),
+            CEFR, "cefrs"
     );
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
