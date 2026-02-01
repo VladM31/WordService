@@ -26,7 +26,7 @@ public class PinnedWordEntity {
     private OffsetDateTime lastReadDate;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @MapsId("userWordId") // важно! связывает userWordId из ключа с этим relation
+    @MapsId("userWordId")
     @JoinColumn(name = "user_word_id", referencedColumnName = "id", nullable = false)
     private UserWordEntity word;
 

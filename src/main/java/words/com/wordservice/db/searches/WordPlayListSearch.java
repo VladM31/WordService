@@ -9,6 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.entities.WordPlayListEntity;
+import words.com.wordservice.domain.models.enums.PlayListVisibility;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,6 +25,7 @@ public class WordPlayListSearch implements Specification<WordPlayListEntity> {
     private Collection<String> userIds;
 
     private String name;
+    private PlayListVisibility visibility;
 
     @Override
     public Predicate toPredicate(Root<WordPlayListEntity> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
@@ -39,6 +41,9 @@ public class WordPlayListSearch implements Specification<WordPlayListEntity> {
 
         if (StringUtils.hasText(name)) {
             predicates.add(cb.like(cb.lower(root.get("name")), "%" + name.toLowerCase() + "%"));
+        }
+        if (visibility != null) {
+            predicates.add(cb.equal(root.get("visibility"), visibility));
         }
 
         if (predicates.isEmpty()) {

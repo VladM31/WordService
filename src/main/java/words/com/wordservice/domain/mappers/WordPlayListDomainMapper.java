@@ -7,11 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
 import words.com.wordservice.db.entities.PinnedWordEntity;
+import words.com.wordservice.db.entities.UserWordEntity;
+import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
+import words.com.wordservice.domain.models.enums.PlayListVisibility;
 import words.com.wordservice.domain.models.playlist.ModifyPlayList;
 import words.com.wordservice.domain.models.playlist.PlayListGrade;
 import words.com.wordservice.domain.models.playlist.WordPlayList;
@@ -111,6 +114,24 @@ public class WordPlayListDomainMapper {
         );
     }
 
+    public WordPlayListEntity toAssignEntity(WordPlayListEntity entity, String userId) {
+        return new WordPlayListEntity(
+                UUID.randomUUID().toString(),
+                userId,
+                entity.getName(),
+                OffsetDateTime.now(),
+                OffsetDateTime.now(),
+                entity.getTags(),
+                entity.getCefrs(),
+                entity.getLanguage(),
+                entity.getTranslateLanguage(),
+                PlayListVisibility.PRIVATE,
+                entity.getBaseId(),
+                entity.getAssociationId()
+        );
+    }
+
+
     public WordPlayListEntity toUpdateEntity(ModifyPlayList model) {
         return new WordPlayListEntity(
                 model.id(),
@@ -146,5 +167,30 @@ public class WordPlayListDomainMapper {
                 LearningHistoryType.UPDATE,
                 model.wordGrade()
         );
+    }
+
+    public UserWordEntity toUserWordEntity(String userId, WordEntity word) {
+        assert word != null : "Word entity is null";
+        return UserWordEntity.builder()
+                .id(UUID.randomUUID().toString())
+                .userId(userId)
+                .learningGrade(0L)
+                .createdAt(OffsetDateTime.now())
+                .lastReadDate(OffsetDateTime.now())
+                .word(word)
+                .build();
+    }
+
+    public PinnedWordEntity toPinnedWordEntity(String playListId, PinnedWordEntity pin, UserWordEntity userWordEntity) {
+        var id = new PinnedWordEntity.PinnedWordId(playListId, userWordEntity.getId());
+
+        return PinnedWordEntity.builder()
+                .id(id)
+                .learningGrade(pin.getLearningGrade())
+                .createdAt(OffsetDateTime.now())
+                .lastReadDate(OffsetDateTime.now())
+                .word(userWordEntity)
+                .build();
+
     }
 }
