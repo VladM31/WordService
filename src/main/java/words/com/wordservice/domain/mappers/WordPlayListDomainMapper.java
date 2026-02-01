@@ -42,7 +42,12 @@ public class WordPlayListDomainMapper {
                 entity.getUserId(),
                 entity.getName(),
                 entity.getCreatedAt(),
-                pinnedWords.getOrDefault(entity.getId(), Collections.emptyList()).stream().map(this::toPinnedWordModel).toList()
+                pinnedWords.getOrDefault(entity.getId(), Collections.emptyList()).stream().map(this::toPinnedWordModel).toList(),
+                entity.getTags(),
+                entity.getCefrs(),
+                entity.getLanguage(),
+                entity.getTranslateLanguage(),
+                entity.getBaseId()
         );
     }
 
