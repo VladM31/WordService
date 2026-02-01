@@ -46,3 +46,4 @@ build/
 /src/main/resources/application-cloud.properties
 /build
 /new_words.json
+/backup/

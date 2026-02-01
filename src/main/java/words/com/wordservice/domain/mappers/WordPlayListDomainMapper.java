@@ -71,7 +71,14 @@ public class WordPlayListDomainMapper {
                 model.userId(),
                 model.name(),
                 OffsetDateTime.now(),
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
         );
     }
 
@@ -81,7 +88,14 @@ public class WordPlayListDomainMapper {
                 model.userId(),
                 model.name(),
                 null,
-                OffsetDateTime.now()
+                OffsetDateTime.now(),
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
         );
     }
 
