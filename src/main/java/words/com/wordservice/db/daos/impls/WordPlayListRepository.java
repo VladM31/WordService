@@ -46,7 +46,9 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
                        )) AND
                        (:language IS NULL OR wp.language = :language) AND
                        (:translateLanguage IS NULL OR wp.translate_language = :translateLanguage) AND
-                       (:visibility IS NULL OR wp.visibility = :visibility)
+                       (:visibility IS NULL OR wp.visibility = :visibility) AND
+                       (:associationId IS NULL OR wp.association_id = :associationId) AND
+                       (:hasNotInIds = true or wp.id NOT IN (:notInIds))
                     GROUP BY  wp.id
                     HAVING
                         (:toCount is null or COUNT(pw.user_word_id) < :toCount) AND
@@ -69,6 +71,9 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
             String language,
             String translateLanguage,
             String visibility,
+            String associationId,
+            boolean hasNotInIds,
+            Collection<String> notInIds,
             Pageable pageable
     );
 

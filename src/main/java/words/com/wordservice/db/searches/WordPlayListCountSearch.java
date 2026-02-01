@@ -27,4 +27,7 @@ public class WordPlayListCountSearch {
     private Language language;
     private Language translateLanguage;
     private PlayListVisibility visibility;
+    private String associationId;
+    @Singular(ignoreNullCollections = true)
+    private Collection<String> notInIds;
 }

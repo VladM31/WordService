@@ -12,12 +12,15 @@ import java.util.Set;
 
 public record PublicPlayListCountGetRequest(
         Set<String> ids,
+        Set<String> notInIds,
+
         String name,
         LongRange count,
         Set<CEFR> cefrs,
         Set<String> tags,
         Language language,
         Language translateLanguage,
+        String associationId,
 
         @NotNull(message = "Sort field must be specified")
         WordPlaylistSortField sortField,

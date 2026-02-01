@@ -18,6 +18,8 @@ public record WordPlayListCountFilter(
         @Singular(ignoreNullCollections = true)
         Collection<String> userIds,
         @Singular(ignoreNullCollections = true)
+        Collection<String> notInIds,
+        @Singular(ignoreNullCollections = true)
         Set<CEFR> cefrs,
         @Singular(ignoreNullCollections = true)
         Set<String> tags,
@@ -26,6 +28,7 @@ public record WordPlayListCountFilter(
         String name,
         Range<Long> count,
         PlayListVisibility visibility,
+        String associationId,
 
         WordPlaylistSortField sortField,
         boolean asc,

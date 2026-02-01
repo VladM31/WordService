@@ -53,6 +53,9 @@ class WordPlayListDaoImpl implements WordPlayListDao {
                 search.getLanguage() != null ? search.getLanguage().name() : null,
                 search.getTranslateLanguage() != null ? search.getTranslateLanguage().name() : null,
                 search.getVisibility() != null ? search.getVisibility().name() : null,
+                search.getAssociationId(),
+                CollectionUtils.isEmpty(search.getNotInIds()),
+                search.getNotInIds() != null ? search.getNotInIds() : List.of(),
                 pageable
         );
     }
@@ -74,6 +77,9 @@ class WordPlayListDaoImpl implements WordPlayListDao {
                 search.getLanguage() != null ? search.getLanguage().name() : null,
                 search.getTranslateLanguage() != null ? search.getTranslateLanguage().name() : null,
                 search.getVisibility() != null ? search.getVisibility().name() : null,
+                search.getAssociationId(),
+                CollectionUtils.isEmpty(search.getNotInIds()),
+                search.getNotInIds() != null ? search.getNotInIds() : List.of(),
                 Pageable.unpaged()
         ).getContent();
     }
