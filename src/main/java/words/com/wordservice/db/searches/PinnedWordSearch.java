@@ -1,9 +1,6 @@
 package words.com.wordservice.db.searches;
 
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.lang.NonNull;
@@ -32,6 +29,18 @@ public class PinnedWordSearch implements Specification<PinnedWordEntity> {
     @Override
     public Predicate toPredicate(@NonNull Root<PinnedWordEntity> root, CriteriaQuery<?> query,@NonNull CriteriaBuilder cb) {
         ArrayList<Predicate> predicates = new ArrayList<>();
+
+        // Add fetch joins only for non-count queries to avoid affecting count projections
+        Class<?> resultType = query.getResultType();
+        if (!Long.class.equals(resultType)) {
+            // fetch UserWordEntity (root.word) and nested WordEntity (root.word.word)
+            try {
+                root.fetch("word", JoinType.LEFT).fetch("word", JoinType.LEFT);
+                query.distinct(true);
+            } catch (Exception ignore) {
+                // ignore fetch failures to keep search robust
+            }
+        }
 
         if (!CollectionUtils.isEmpty(pinnedIds)) {
             predicates.add(root.get("id").in(pinnedIds));
