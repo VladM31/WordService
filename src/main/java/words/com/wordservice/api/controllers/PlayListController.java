@@ -13,6 +13,7 @@ import words.com.wordservice.api.requests.playlist.*;
 import words.com.wordservice.api.responds.playlist.AssignedPlaylistRespond;
 import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
 import words.com.wordservice.api.responds.playlist.PlayListRespond;
+import words.com.wordservice.api.responds.playlist.PublicPlayListCountRespond;
 import words.com.wordservice.domain.models.playlist.DeletePlayList;
 import words.com.wordservice.domain.services.WordPlayListService;
 
@@ -53,12 +54,12 @@ public class PlayListController {
     }
 
     @GetMapping("/count/public")
-    public PagedModel<PlayListCountRespond> getCountPlayLists(
+    public PagedModel<PublicPlayListCountRespond> getCountPlayLists(
             @Valid PublicPlayListCountGetRequest request
     ) {
         var filter = playListApiMapper.toPublicFilter(request);
         var paged = wordPlayListService.findBy(filter)
-                .map(playListApiMapper::toRespond);
+                .map(playListApiMapper::toPublicRespond);
 
         return new PagedModel<>(paged);
     }

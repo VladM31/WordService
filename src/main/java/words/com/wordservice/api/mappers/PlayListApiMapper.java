@@ -10,6 +10,7 @@ import words.com.wordservice.api.requests.playlist.*;
 import words.com.wordservice.api.responds.playlist.AssignedPlaylistRespond;
 import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
 import words.com.wordservice.api.responds.playlist.PlayListRespond;
+import words.com.wordservice.api.responds.playlist.PublicPlayListCountRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.enums.PlayListVisibility;
 import words.com.wordservice.domain.models.filters.WordPlayListCountFilter;
@@ -59,6 +60,10 @@ public class PlayListApiMapper {
 
     public PlayListCountRespond toRespond(WordPlayListCount model) {
         return objectMapper.convertValue(model, PlayListCountRespond.class);
+    }
+
+    public PublicPlayListCountRespond toPublicRespond(WordPlayListCount model) {
+        return objectMapper.convertValue(model, PublicPlayListCountRespond.class);
     }
 
     public PlayListRespond toRespond(WordPlayList model) {

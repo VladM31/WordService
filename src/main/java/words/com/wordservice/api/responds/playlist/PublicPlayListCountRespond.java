@@ -6,9 +6,8 @@ import words.com.wordservice.domain.models.enums.Language;
 import java.time.OffsetDateTime;
 import java.util.TreeSet;
 
-public record PlayListCountRespond(
+public record PublicPlayListCountRespond(
         String id,
-        String userId,
         String name,
         OffsetDateTime createdAt,
         Long count,
