@@ -24,7 +24,9 @@ public class WordPlayListSearchMapper {
     private final Map<WordPlaylistSortField, String> sortFieldMap = Map.of(
             NAME, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getName),
             CREATED_AT, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getCreatedAt),
-            CEFR, "cefrs"
+            CEFR, "cefrs",
+            LANGUAGE, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getLanguage),
+            TRANSLATE_LANGUAGE, SortUtils.getSortColumnName(WordPlayListEntity.class, WordPlayListEntity::getTranslateLanguage)
     );
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule())
