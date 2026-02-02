@@ -2,7 +2,9 @@ package words.com.wordservice.api.mappers;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
@@ -16,21 +18,30 @@ import words.com.wordservice.domain.models.enums.PlayListVisibility;
 import words.com.wordservice.domain.models.filters.WordPlayListCountFilter;
 import words.com.wordservice.domain.models.filters.WordPlayListFilter;
 import words.com.wordservice.domain.models.playlist.*;
+import words.com.wordservice.domain.services.WordPlayListService;
 
 import java.util.Collections;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class PlayListApiMapper {
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule())
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private final WordPlayListService wordPlayListService;
 
-    public WordPlayListCountFilter toPublicFilter(PublicPlayListCountGetRequest getRequest) {
+    public WordPlayListCountFilter toPublicFilter(@Nullable User user, PublicPlayListCountGetRequest getRequest) {
 
         var builder = objectMapper.convertValue(getRequest, WordPlayListCountFilter.class).toBuilder();
         DecodeUtils.decode(builder::name, getRequest::name);
 
+        if (user != null) {
+            var assignedPlayListIds = wordPlayListService.getAssignedPlaylists(user.id())
+                    .stream().map(AssignedPlaylist::id).collect(Collectors.toSet());
+            builder.notInIds(assignedPlayListIds);
+        }
 
         return builder
                 .userId("system")

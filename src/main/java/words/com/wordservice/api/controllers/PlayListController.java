@@ -66,9 +66,10 @@ public class PlayListController {
 
     @GetMapping("/count/public")
     public PagedModel<PublicPlayListCountRespond> getCountPlayLists(
+            @AuthenticationPrincipal User user,
             @Valid PublicPlayListCountGetRequest request
     ) {
-        var filter = playListApiMapper.toPublicFilter(request);
+        var filter = playListApiMapper.toPublicFilter(user, request);
         var paged = wordPlayListService.findBy(filter)
                 .map(playListApiMapper::toPublicRespond);
 

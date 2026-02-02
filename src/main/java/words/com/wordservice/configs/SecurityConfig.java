@@ -37,8 +37,7 @@ public class SecurityConfig {
 
                                 .requestMatchers(HttpMethod.GET,
                                         "/", "/swagger-ui.html", "/swagger-ui/**",
-                                        "/v3/api-docs/**", "/actuator/info", "/words",
-                                        "/play-list/count/public"
+                                        "/v3/api-docs/**", "/actuator/info", "/words"
                                 ).permitAll()
                                 .anyRequest()
                                 .authenticated())

@@ -12,7 +12,6 @@ import java.util.Set;
 
 public record PublicPlayListCountGetRequest(
         Set<String> ids,
-        Set<String> notInIds,
 
         String name,
         LongRange count,
