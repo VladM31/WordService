@@ -58,6 +58,16 @@ public class PlayListApiMapper {
         return builder.build();
     }
 
+    public WordPlayListFilter toFilter(PublicPlayListGetRequest getRequest) {
+
+        var builder = objectMapper.convertValue(getRequest, WordPlayListFilter.class).toBuilder();
+        DecodeUtils.decode(builder::name, getRequest::name);
+
+        return builder
+                .visibility(PlayListVisibility.PUBLIC)
+                .build();
+    }
+
     public PlayListCountRespond toRespond(WordPlayListCount model) {
         return objectMapper.convertValue(model, PlayListCountRespond.class);
     }
