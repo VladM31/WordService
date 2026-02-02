@@ -108,7 +108,7 @@ public class WordPlayListDomainMapper {
                 null,
                 null,
                 null,
-                null,
+                PlayListVisibility.PRIVATE,
                 null,
                 null
         );
