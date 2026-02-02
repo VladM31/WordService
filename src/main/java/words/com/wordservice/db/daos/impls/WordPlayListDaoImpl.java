@@ -86,7 +86,7 @@ class WordPlayListDaoImpl implements WordPlayListDao {
 
     @Override
     public Set<String> getAssignedPlaylistIds(String userId) {
-        return Set.of();
+        return repository.getAssignedPlaylistIds(userId);
     }
 
     @Override
