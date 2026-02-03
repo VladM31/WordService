@@ -75,7 +75,7 @@ class UserWordServiceImpl implements UserWordService {
         if (ids.isEmpty()) {
             return Collections.emptyList();
         }
-        var filter = UserWordFilter.builder().userWordIds(ids).build();
+        var filter = UserWordFilter.builder().page(0).size(ids.size()).userWordIds(ids).build();
         return findBy(filter).getContent();
     }
 
