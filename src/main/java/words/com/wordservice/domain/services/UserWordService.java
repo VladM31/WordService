@@ -5,6 +5,7 @@ import words.com.wordservice.domain.models.filters.UserWordFilter;
 import words.com.wordservice.domain.models.words.*;
 
 import java.util.Collection;
+import java.util.List;
 
 public interface UserWordService {
 
@@ -12,7 +13,7 @@ public interface UserWordService {
 
     void save(Collection<ModifyUserWord> userWords);
 
-    void savePins(Collection<PinUserWord> userWords);
+    List<UserWord> savePins(Collection<PinUserWord> userWords);
 
     void update(Collection<ModifyUserWord> userWords);
 

@@ -41,9 +41,12 @@ public class UserWordController {
     }
 
     @PostMapping("pin")
-    public void savePin(@AuthenticationPrincipal User user, @RequestBody @Valid Set<PinUserWordRequest> requests){
+    public List<UserWordRespond> savePin(@AuthenticationPrincipal User user, @RequestBody @Valid Set<PinUserWordRequest> requests) {
         var models = requests.stream().map(it -> userWordApiMapper.toModel(user,it)).toList();
-        userWordService.savePins(models);
+        return userWordService.savePins(models)
+                .stream()
+                .map(userWordApiMapper::toRespond)
+                .toList();
     }
 
     @PostMapping("delete")

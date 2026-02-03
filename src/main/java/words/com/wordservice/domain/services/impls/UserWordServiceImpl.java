@@ -3,6 +3,7 @@ package words.com.wordservice.domain.services.impls;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.daos.LearningHistoryDao;
 import words.com.wordservice.db.daos.PinnedWordDao;
 import words.com.wordservice.db.daos.UserWordDao;
@@ -18,6 +19,8 @@ import words.com.wordservice.domain.models.words.*;
 import words.com.wordservice.domain.services.UserWordService;
 
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @RequiredArgsConstructor
 class UserWordServiceImpl implements UserWordService {
@@ -57,7 +60,8 @@ class UserWordServiceImpl implements UserWordService {
     }
 
     @Override
-    public void savePins(Collection<PinUserWord> userWords) {
+    @Transactional
+    public List<UserWord> savePins(Collection<PinUserWord> userWords) {
         var actions = userWords.stream()
                 .map(userWordDomainMapper::toAction)
                 .toList();
@@ -67,6 +71,12 @@ class UserWordServiceImpl implements UserWordService {
                 .map(userWordDomainMapper::toLearningHistoryEntity)
                 .toList();
         learningHistoryDao.saveAll(historyEntities);
+        var ids = actions.stream().map(UserWordUpsertAction::id).toList();
+        if (ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        var filter = UserWordFilter.builder().userWordIds(ids).build();
+        return findBy(filter).getContent();
     }
 
     @Override
