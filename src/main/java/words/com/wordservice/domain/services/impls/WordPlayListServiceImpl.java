@@ -14,6 +14,7 @@ import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.searches.PinnedWordSearch;
 import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.db.searches.WordPlayListSearch;
+import words.com.wordservice.domain.mappers.UserWordDomainMapper;
 import words.com.wordservice.domain.mappers.WordPlayListDomainMapper;
 import words.com.wordservice.domain.mappers.WordPlayListSearchMapper;
 import words.com.wordservice.domain.models.enums.PlayListVisibility;
@@ -36,6 +37,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
     private final WordPlayListDomainMapper wordPlayListDomainMapper;
     private final LearningHistoryDao learningHistoryDao;
     private final UserWordDao userWordDao;
+    private final UserWordDomainMapper userWordDomainMapper;
 
     @Override
     public Page<WordPlayList> findBy(WordPlayListFilter filter) {
@@ -133,11 +135,14 @@ class WordPlayListServiceImpl implements WordPlayListService {
             newPinnedWords.add(newPin);
         }
 
+        var historyEntities = newUserWords.stream()
+                .map(userWordDomainMapper::toLearningHistoryEntity)
+                .toList();
+
         dao.saveAll(newPlayLists);
         userWordDao.saveAll(newUserWords);
         pinnedWordDao.saveAll(newPinnedWords);
-
-
+        learningHistoryDao.saveAll(historyEntities);
     }
 
     @Override

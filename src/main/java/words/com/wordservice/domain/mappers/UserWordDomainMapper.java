@@ -82,6 +82,18 @@ public class UserWordDomainMapper {
                 .build();
     }
 
+    public LearningHistoryEntity toLearningHistoryEntity(UserWordEntity entity) {
+        return new LearningHistoryEntity(
+                UUID.randomUUID().toString(),
+                entity.getUserId(),
+                entity.getWord().getId(),
+                LocalDate.now(ZoneId.of("UTC")),
+                OffsetTime.now(),
+                LearningHistoryType.CREATE,
+                0
+        );
+    }
+
     public LearningHistoryEntity toLearningHistoryEntity(ModifyUserWord model) {
         return new LearningHistoryEntity(
                 UUID.randomUUID().toString(),
