@@ -85,7 +85,8 @@ public class DomainServiceConfig {
             PinnedWordDao pinnedWordDao,
             WordPlayListDomainMapper wordPlayListDomainMapper,
             LearningHistoryDao learningHistoryDao,
-            UserWordDao userWordDao
+            UserWordDao userWordDao,
+            UserWordDomainMapper userWordDomainMapper
     ) {
         return new WordPlayListServiceImpl(
                 searchMapper,
@@ -93,7 +94,8 @@ public class DomainServiceConfig {
                 pinnedWordDao,
                 wordPlayListDomainMapper,
                 learningHistoryDao,
-                userWordDao
+                userWordDao,
+                userWordDomainMapper
         );
     }
 }
