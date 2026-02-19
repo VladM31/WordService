@@ -19,7 +19,7 @@ public interface WordPlayListService {
 
     void updateAll(Collection<ModifyPlayList> playLists);
 
-    void assignPlaylists(Collection<String> playListIds, String userId);
+    Set<String> assignPlaylists(Collection<String> playListIds, String userId);
 
     Set<AssignedPlaylist> getAssignedPlaylists(String userId);
 

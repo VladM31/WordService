@@ -10,14 +10,12 @@ import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.PlayListApiMapper;
 import words.com.wordservice.api.requests.playlist.*;
-import words.com.wordservice.api.responds.playlist.AssignedPlaylistRespond;
-import words.com.wordservice.api.responds.playlist.PlayListCountRespond;
-import words.com.wordservice.api.responds.playlist.PlayListRespond;
-import words.com.wordservice.api.responds.playlist.PublicPlayListCountRespond;
+import words.com.wordservice.api.responds.playlist.*;
 import words.com.wordservice.domain.models.playlist.DeletePlayList;
 import words.com.wordservice.domain.services.WordPlayListService;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @ResponseBody
@@ -87,10 +85,13 @@ public class PlayListController {
     }
 
     @PostMapping("/assign")
-    public void assignPlayLists(
+    public List<PlaylistIdRespond> assignPlayLists(
             @AuthenticationPrincipal User user,
             @RequestBody @Valid AssignPlayListsRequest request) {
-        wordPlayListService.assignPlaylists(request.playListIds(), user.id());
+        return wordPlayListService.assignPlaylists(request.playListIds(), user.id())
+                .stream()
+                .map(PlaylistIdRespond::new)
+                .toList();
     }
 
 

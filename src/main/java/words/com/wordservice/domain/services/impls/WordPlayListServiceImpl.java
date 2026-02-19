@@ -84,7 +84,7 @@ class WordPlayListServiceImpl implements WordPlayListService {
 
     @Override
     @Transactional
-    public void assignPlaylists(Collection<String> playListIds, String userId) {
+    public Set<String> assignPlaylists(Collection<String> playListIds, String userId) {
         if (CollectionUtils.isEmpty(playListIds)) {
             throw new RuntimeException("playListIds is empty");
         }
@@ -143,6 +143,10 @@ class WordPlayListServiceImpl implements WordPlayListService {
         userWordDao.saveAll(newUserWords);
         pinnedWordDao.saveAll(newPinnedWords);
         learningHistoryDao.saveAll(historyEntities);
+
+        return newPlayLists.stream()
+                .map(WordPlayListEntity::getId)
+                .collect(Collectors.toSet());
     }
 
     @Override
