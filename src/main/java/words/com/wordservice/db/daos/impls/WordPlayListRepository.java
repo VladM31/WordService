@@ -9,6 +9,7 @@ import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -79,5 +80,25 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
 
     @Query(value = "SELECT wp.baseId FROM WordPlayListEntity wp WHERE wp.userId = :userId and wp.baseId is not null ")
     Set<String> getAssignedPlaylistIds(String userId);
+
+    @Query(value = """
+            SELECT
+                wp.id,
+                wp.user_id AS userId,
+                wp.name,
+                wp.created_at AS createdAt,
+                COUNT(pw.user_word_id) as count,
+                wp.tags,
+                wp.cefrs,
+                wp.language,
+                wp.translate_language AS translateLanguage
+            FROM word_playlists wp
+            LEFT JOIN pinned_word pw ON wp.id = pw.play_list_id
+            WHERE wp.user_id = :userId
+            GROUP BY wp.id
+            ORDER BY RANDOM()
+            LIMIT 1
+            """, nativeQuery = true)
+    Optional<WordPlaylistCountProjection> findRandomByUserId(String userId);
 
 }

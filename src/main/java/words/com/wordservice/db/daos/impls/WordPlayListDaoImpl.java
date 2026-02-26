@@ -17,6 +17,7 @@ import words.com.wordservice.utils.Range;
 import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Slf4j
@@ -87,6 +88,11 @@ class WordPlayListDaoImpl implements WordPlayListDao {
     @Override
     public Set<String> getAssignedPlaylistIds(String userId) {
         return repository.getAssignedPlaylistIds(userId);
+    }
+
+    @Override
+    public Optional<WordPlaylistCountProjection> findRandomByUserId(String userId) {
+        return repository.findRandomByUserId(userId);
     }
 
     @Override

@@ -10,6 +10,7 @@ import words.com.wordservice.db.searches.WordPlayListSearch;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 public interface WordPlayListDao {
@@ -23,6 +24,8 @@ public interface WordPlayListDao {
     List<WordPlaylistCountProjection> findBy(WordPlayListCountSearch search);
 
     Set<String> getAssignedPlaylistIds(String userId);
+
+    Optional<WordPlaylistCountProjection> findRandomByUserId(String userId);
 
     void saveAll(Collection<WordPlayListEntity> entities);
 
