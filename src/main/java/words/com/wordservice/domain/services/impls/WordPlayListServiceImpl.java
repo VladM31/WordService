@@ -23,10 +23,7 @@ import words.com.wordservice.domain.models.filters.WordPlayListFilter;
 import words.com.wordservice.domain.models.playlist.*;
 import words.com.wordservice.domain.services.WordPlayListService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -165,6 +162,11 @@ class WordPlayListServiceImpl implements WordPlayListService {
         dao.updateGrades(
                 grades.stream().map(wordPlayListDomainMapper::toAction).toList()
         );
+    }
+
+    @Override
+    public Optional<WordPlayListCount> getRandomPlaylist(String userId) {
+        return dao.findRandomByUserId(userId).map(wordPlayListDomainMapper::toModel);
     }
 
     @Override

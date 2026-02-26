@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.web.PagedModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,6 @@ import words.com.wordservice.domain.models.playlist.DeletePlayList;
 import words.com.wordservice.domain.services.WordPlayListService;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @ResponseBody
@@ -72,6 +72,16 @@ public class PlayListController {
                 .map(playListApiMapper::toPublicRespond);
 
         return new PagedModel<>(paged);
+    }
+
+    @GetMapping("/random")
+    public ResponseEntity<PlayListCountRespond> getRandomPlayList(
+            @AuthenticationPrincipal User user
+    ) {
+        return wordPlayListService.getRandomPlaylist(user.id())
+                .map(playListApiMapper::toRespond)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/assigned")

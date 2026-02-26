@@ -6,6 +6,7 @@ import words.com.wordservice.domain.models.filters.WordPlayListFilter;
 import words.com.wordservice.domain.models.playlist.*;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -26,4 +27,6 @@ public interface WordPlayListService {
     void updateGrades(Collection<PlayListGrade> grades);
 
     void delete(DeletePlayList deletePlayList);
+
+    Optional<WordPlayListCount> getRandomPlaylist(String userId);
 }
