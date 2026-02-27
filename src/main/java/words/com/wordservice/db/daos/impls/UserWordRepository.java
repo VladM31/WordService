@@ -40,4 +40,12 @@ interface UserWordRepository extends ListCrudRepository<UserWordEntity, String>,
             @Param("userId") String userId,
             @Param("wordId") String wordId
     );
+
+    @Modifying
+    @Query(
+            "UPDATE UserWordEntity u " +
+                    "SET u.customSoundFileName = :soundFileName, u.customImageFileName = :imageFileName " +
+                    "WHERE u.id = :id AND u.userId = :userId"
+    )
+    void update(String id, String userId, String soundFileName, String imageFileName);
 }

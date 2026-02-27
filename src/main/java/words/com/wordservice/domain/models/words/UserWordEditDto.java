@@ -6,6 +6,7 @@ import words.com.wordservice.domain.models.enums.Language;
 
 public record UserWordEditDto(
         String id,
+        String userId,
         String original,
         Language lang,
         String translate,
