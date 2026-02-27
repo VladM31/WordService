@@ -4,7 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
+import words.com.wordservice.db.actions.UserWordUpdateAction;
 import words.com.wordservice.db.actions.UserWordUpsertAction;
+import words.com.wordservice.db.actions.WordUpdateAction;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
 import words.com.wordservice.db.searches.UserWordSearch;
@@ -106,6 +108,28 @@ public class UserWordDomainMapper {
                 OffsetTime.now(),
                 LearningHistoryType.CREATE,
                 0
+        );
+    }
+
+    public UserWordUpdateAction toUserWordUpdateAction(UserWordEditDto dto) {
+        return new UserWordUpdateAction(
+                dto.id(),
+                dto.userId(),
+                dto.soundFileName(),
+                dto.imageFileName()
+        );
+    }
+
+    public WordUpdateAction toWordUpdateAction(UserWordEditDto dto, String wordId) {
+        return new WordUpdateAction(
+                wordId,
+                dto.original(),
+                dto.lang(),
+                dto.translate(),
+                dto.translateLang(),
+                dto.category(),
+                dto.description(),
+                dto.cefr()
         );
     }
 }

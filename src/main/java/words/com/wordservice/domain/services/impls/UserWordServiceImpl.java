@@ -14,6 +14,7 @@ import words.com.wordservice.db.searches.PinnedWordSearch;
 import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.domain.mappers.UserWordDomainMapper;
 import words.com.wordservice.domain.mappers.UserWordSearchMapper;
+import words.com.wordservice.domain.models.enums.WordType;
 import words.com.wordservice.domain.models.filters.UserWordFilter;
 import words.com.wordservice.domain.models.words.*;
 import words.com.wordservice.domain.services.UserWordService;
@@ -80,8 +81,23 @@ class UserWordServiceImpl implements UserWordService {
     }
 
     @Override
+    @Transactional
     public void update(UserWordEditDto userWord) {
-
+        var search = UserWordSearch.builder()
+                .userWordId(userWord.id())
+                .userId(userWord.userId())
+                .build();
+        var userWordEntity = userWordDao.findBy(search)
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User word not found"));
+        var userWordUpdateAction = userWordDomainMapper.toUserWordUpdateAction(userWord);
+        userWordDao.update(userWordUpdateAction);
+        if (userWordEntity.getWord().getType() == WordType.PUBLIC) {
+            return;
+        }
+        var wordUpdateAction = userWordDomainMapper.toWordUpdateAction(userWord, userWordEntity.getWord().getId());
+        wordDao.update(wordUpdateAction);
     }
 
     @Override

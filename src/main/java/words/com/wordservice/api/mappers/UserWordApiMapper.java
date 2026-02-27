@@ -1,21 +1,18 @@
 package words.com.wordservice.api.mappers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
-import words.com.wordservice.api.requests.words.UserWordCreateRequest;
-import words.com.wordservice.api.requests.words.UserWordDeleteRequest;
-import words.com.wordservice.api.requests.words.UserWordFilterRequest;
-import words.com.wordservice.api.requests.words.UserWordPinRequest;
+import words.com.wordservice.api.requests.words.*;
 import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.filters.UserWordFilter;
-import words.com.wordservice.domain.models.words.PinUserWord;
-import words.com.wordservice.domain.models.words.UserWord;
-import words.com.wordservice.domain.models.words.UserWordCreateDto;
-import words.com.wordservice.domain.models.words.UserWordDeleteDto;
+import words.com.wordservice.domain.models.words.*;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -70,6 +67,22 @@ public class UserWordApiMapper {
                 request.id(),
                 userId,
                 request.wordId()
+        );
+    }
+
+    public UserWordEditDto toModel(@AuthenticationPrincipal User user, @RequestBody @Valid UserWordEditRequest request) {
+        return new UserWordEditDto(
+                request.id(),
+                user.id(),
+                request.original(),
+                request.lang(),
+                request.translate(),
+                request.translateLang(),
+                request.category(),
+                request.soundFileName(),
+                request.imageFileName(),
+                request.description(),
+                request.cefr()
         );
     }
 }

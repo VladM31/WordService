@@ -7,10 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.UserWordApiMapper;
-import words.com.wordservice.api.requests.words.UserWordCreateRequest;
-import words.com.wordservice.api.requests.words.UserWordDeleteRequest;
-import words.com.wordservice.api.requests.words.UserWordFilterRequest;
-import words.com.wordservice.api.requests.words.UserWordPinRequest;
+import words.com.wordservice.api.requests.words.*;
 import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.domain.services.UserWordService;
 
@@ -54,5 +51,11 @@ public class UserWordController {
         userWordService.delete(
                 requests.stream().map(request -> userWordApiMapper.toOptions(request, user.id())).collect(Collectors.toSet())
         );
+    }
+
+    @PatchMapping
+    public void update(@AuthenticationPrincipal User user, @RequestBody @Valid UserWordEditRequest request) {
+        var model = userWordApiMapper.toModel(user, request);
+        userWordService.update(model);
     }
 }
