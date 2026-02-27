@@ -3,7 +3,6 @@ package words.com.wordservice.domain.mappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import words.com.wordservice.db.actions.UserWordDeleteAction;
 import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.entities.UserWordEntity;
@@ -63,14 +62,6 @@ public class UserWordDomainMapper {
                 model.userWordId(),
                 model.userId(),
                 model.value()
-        );
-    }
-
-    public UserWordDeleteAction toAction(UserWordDeleteDto model) {
-        return new UserWordDeleteAction(
-                model.id(),
-                model.wordId(),
-                model.userId()
         );
     }
 
