@@ -28,12 +28,12 @@ public class DbDaoConfig {
     }
 
     @Bean
-    WordPlayListDao wordPlayListDaoImpl(
+    PlayListDao wordPlayListDaoImpl(
             WordPlayListRepository wordPlayListRepository,
             PinnedWordRepository pinnedWordRepository,
             UserWordRepository userWordRepository
     ) {
-        return new WordPlayListDaoImpl(wordPlayListRepository, pinnedWordRepository, userWordRepository);
+        return new PlayListDaoImpl(wordPlayListRepository, pinnedWordRepository, userWordRepository);
     }
 
     @Bean

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.CollectionUtils;
 import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
-import words.com.wordservice.db.daos.WordPlayListDao;
+import words.com.wordservice.db.daos.PlayListDao;
 import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 import words.com.wordservice.db.searches.WordPlayListCountSearch;
@@ -22,7 +22,7 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-class WordPlayListDaoImpl implements WordPlayListDao {
+class PlayListDaoImpl implements PlayListDao {
     private final WordPlayListRepository repository;
     private final PinnedWordRepository pinnedWordRepository;
     private final UserWordRepository userWordRepository;

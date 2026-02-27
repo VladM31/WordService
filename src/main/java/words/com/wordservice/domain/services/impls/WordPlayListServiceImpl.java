@@ -6,8 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import words.com.wordservice.db.daos.LearningHistoryDao;
 import words.com.wordservice.db.daos.PinnedWordDao;
+import words.com.wordservice.db.daos.PlayListDao;
 import words.com.wordservice.db.daos.UserWordDao;
-import words.com.wordservice.db.daos.WordPlayListDao;
 import words.com.wordservice.db.entities.PinnedWordEntity;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.entities.WordPlayListEntity;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 class WordPlayListServiceImpl implements WordPlayListService {
     private final WordPlayListSearchMapper searchMapper;
-    private final WordPlayListDao dao;
+    private final PlayListDao dao;
     private final PinnedWordDao pinnedWordDao;
     private final WordPlayListDomainMapper wordPlayListDomainMapper;
     private final LearningHistoryDao learningHistoryDao;

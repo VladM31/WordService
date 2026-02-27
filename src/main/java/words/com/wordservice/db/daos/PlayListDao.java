@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-public interface WordPlayListDao {
+public interface PlayListDao {
 
     Page<WordPlayListEntity> findBy(WordPlayListSearch search, Pageable pageable);
 

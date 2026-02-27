@@ -81,7 +81,7 @@ public class DomainServiceConfig {
     @Bean
     WordPlayListService wordPlayListServiceImpl(
             WordPlayListSearchMapper searchMapper,
-            WordPlayListDao dao,
+            PlayListDao dao,
             PinnedWordDao pinnedWordDao,
             WordPlayListDomainMapper wordPlayListDomainMapper,
             LearningHistoryDao learningHistoryDao,
