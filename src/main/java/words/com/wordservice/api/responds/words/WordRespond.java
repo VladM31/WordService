@@ -1,6 +1,5 @@
-package words.com.wordservice.api.responds;
+package words.com.wordservice.api.responds.words;
 
-import lombok.Builder;
 import org.springframework.lang.Nullable;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.Language;

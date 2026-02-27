@@ -1,4 +1,4 @@
-package words.com.wordservice.api.responds;
+package words.com.wordservice.api.responds.words;
 
 import words.com.wordservice.domain.models.enums.WordType;
 
