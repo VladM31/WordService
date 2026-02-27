@@ -41,7 +41,7 @@ class UserWordServiceImpl implements UserWordService {
 
     @Override
     @Transactional
-    public void save(Collection<ModifyUserWord> userWords) {
+    public void save(Collection<UserWordCreateDto> userWords) {
         var userWordEntities = userWords.stream()
                 .map(userWordDomainMapper::toEntity)
                 .toList();
@@ -80,15 +80,12 @@ class UserWordServiceImpl implements UserWordService {
     }
 
     @Override
-    public void update(Collection<ModifyUserWord> userWords) {
-        var entities = userWords.stream()
-                .map(userWordDomainMapper::toEntity)
-                .toList();
-        userWordDao.updateAll(entities);
+    public void update(UserWordEditDto userWord) {
+
     }
 
     @Override
-    public void addGrades(Collection<GradeUserWord> grades) {
+    public void addGrades(Collection<UserWordGrade> grades) {
         var actions = grades.stream()
                 .map(userWordDomainMapper::toAction)
                 .toList();
@@ -101,7 +98,7 @@ class UserWordServiceImpl implements UserWordService {
     }
 
     @Override
-    public void delete(Collection<DeleteUserWordOptions> userWords) {
+    public void delete(Collection<UserWordDeleteDto> userWords) {
         var searches = userWords.stream()
                 .map(userWordDomainMapper::toSearch)
                 .toList();

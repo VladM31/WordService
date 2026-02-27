@@ -11,15 +11,15 @@ public interface UserWordService {
 
     Page<UserWord> findBy(UserWordFilter filter);
 
-    void save(Collection<ModifyUserWord> userWords);
+    void save(Collection<UserWordCreateDto> userWords);
 
     List<UserWord> savePins(Collection<PinUserWord> userWords);
 
-    void update(Collection<ModifyUserWord> userWords);
+    void update(UserWordEditDto userWord);
 
-    void addGrades(Collection<GradeUserWord> grades);
+    void addGrades(Collection<UserWordGrade> grades);
 
     long count(UserWordFilter filter);
 
-    void delete(Collection<DeleteUserWordOptions> userWords);
+    void delete(Collection<UserWordDeleteDto> userWords);
 }

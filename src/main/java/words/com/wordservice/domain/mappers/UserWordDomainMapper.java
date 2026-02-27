@@ -35,7 +35,7 @@ public class UserWordDomainMapper {
         );
     }
 
-    public UserWordEntity toEntity(ModifyUserWord model) {
+    public UserWordEntity toEntity(UserWordCreateDto model) {
         return new UserWordEntity(
                 StringUtils.hasText(model.id()) ? model.id() : UUID.randomUUID().toString(),
                 model.userId(),
@@ -58,7 +58,7 @@ public class UserWordDomainMapper {
         );
     }
 
-    public UpdateUserWordGradeAction toAction(GradeUserWord model) {
+    public UpdateUserWordGradeAction toAction(UserWordGrade model) {
         return new UpdateUserWordGradeAction(
                 model.userWordId(),
                 model.userId(),
@@ -66,7 +66,7 @@ public class UserWordDomainMapper {
         );
     }
 
-    public DeleteUserWordAction toAction(DeleteUserWordOptions model) {
+    public DeleteUserWordAction toAction(UserWordDeleteDto model) {
         return new DeleteUserWordAction(
                 model.id(),
                 model.wordId(),
@@ -74,7 +74,7 @@ public class UserWordDomainMapper {
         );
     }
 
-    public UserWordSearch toSearch(DeleteUserWordOptions options) {
+    public UserWordSearch toSearch(UserWordDeleteDto options) {
         return UserWordSearch.builder()
                 .userWordId(options.id())
                 .wordId(options.wordId())
@@ -94,7 +94,7 @@ public class UserWordDomainMapper {
         );
     }
 
-    public LearningHistoryEntity toLearningHistoryEntity(ModifyUserWord model) {
+    public LearningHistoryEntity toLearningHistoryEntity(UserWordCreateDto model) {
         return new LearningHistoryEntity(
                 UUID.randomUUID().toString(),
                 model.userId(),

@@ -2,9 +2,9 @@ package words.com.wordservice.domain.services;
 
 import org.springframework.data.domain.Page;
 import words.com.wordservice.domain.models.filters.WordFilter;
-import words.com.wordservice.domain.models.words.DeleteWordOptions;
 import words.com.wordservice.domain.models.words.ModifyWord;
 import words.com.wordservice.domain.models.words.Word;
+import words.com.wordservice.domain.models.words.WordDeleteDto;
 
 import java.util.Collection;
 
@@ -15,5 +15,5 @@ public interface WordService {
 
     void updateAll(Collection<ModifyWord> words);
 
-    void delete(DeleteWordOptions options);
+    void delete(WordDeleteDto options);
 }

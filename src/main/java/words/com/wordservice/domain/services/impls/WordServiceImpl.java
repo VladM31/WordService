@@ -10,9 +10,9 @@ import words.com.wordservice.db.searches.WordSearch;
 import words.com.wordservice.domain.mappers.WordDomainMapper;
 import words.com.wordservice.domain.mappers.WordSearchMapper;
 import words.com.wordservice.domain.models.filters.WordFilter;
-import words.com.wordservice.domain.models.words.DeleteWordOptions;
 import words.com.wordservice.domain.models.words.ModifyWord;
 import words.com.wordservice.domain.models.words.Word;
+import words.com.wordservice.domain.models.words.WordDeleteDto;
 import words.com.wordservice.domain.services.WordService;
 
 import java.util.Collection;
@@ -73,7 +73,7 @@ class WordServiceImpl implements WordService {
     }
 
     @Override
-    public void delete(DeleteWordOptions options) {
+    public void delete(WordDeleteDto options) {
         var actions = wordDomainMapper.toActions(options);
         wordDao.delete(actions);
     }

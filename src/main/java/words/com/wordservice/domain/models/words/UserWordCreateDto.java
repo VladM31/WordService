@@ -4,7 +4,7 @@ import lombok.Builder;
 
 
 @Builder(toBuilder = true)
-public record ModifyUserWord(
+public record UserWordCreateDto(
         String id,
         String userId,
 

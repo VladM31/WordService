@@ -12,10 +12,10 @@ import words.com.wordservice.api.requests.words.UserWordPinRequest;
 import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.filters.UserWordFilter;
-import words.com.wordservice.domain.models.words.DeleteUserWordOptions;
 import words.com.wordservice.domain.models.words.PinUserWord;
 import words.com.wordservice.domain.models.words.UserWord;
 import words.com.wordservice.domain.models.words.UserWordCreateDto;
+import words.com.wordservice.domain.models.words.UserWordDeleteDto;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -65,8 +65,8 @@ public class UserWordApiMapper {
     }
 
 
-    public DeleteUserWordOptions toOptions(UserWordDeleteRequest request, String userId) {
-        return new DeleteUserWordOptions(
+    public UserWordDeleteDto toOptions(UserWordDeleteRequest request, String userId) {
+        return new UserWordDeleteDto(
                 request.id(),
                 userId,
                 request.wordId()
