@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
-import words.com.wordservice.api.requests.words.CreateWordRequest;
-import words.com.wordservice.api.requests.words.DeleteWordRequest;
+import words.com.wordservice.api.requests.words.WordCreateRequest;
+import words.com.wordservice.api.requests.words.WordDeleteRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
 import words.com.wordservice.api.responds.words.WordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
@@ -44,8 +44,7 @@ public class WordApiMapper {
     }
 
 
-
-    public ModifyWord toModifyWord(CreateWordRequest word, User user) {
+    public ModifyWord toModifyWord(WordCreateRequest word, User user) {
         return new ModifyWord(
                 UUID.randomUUID().toString(),
                 word.original(),
@@ -65,7 +64,7 @@ public class WordApiMapper {
         return objectMapper.convertValue(model, WordRespond.class);
     }
 
-    public DeleteWordOptions toOptions(DeleteWordRequest request){
+    public DeleteWordOptions toOptions(WordDeleteRequest request) {
         return objectMapper.convertValue(request, DeleteWordOptions.class);
     }
 }

@@ -91,7 +91,7 @@ public class PlayListApiMapper {
         return objectMapper.convertValue(model, PlayListRespond.class);
     }
 
-    public ModifyPlayList toModifyPlayList(@NonNull User user, @NonNull UpdatePlayListRequest request) {
+    public ModifyPlayList toModifyPlayList(@NonNull User user, @NonNull PlayListUpdateRequest request) {
         return new ModifyPlayList(
                 request.id(),
                 user.id(),

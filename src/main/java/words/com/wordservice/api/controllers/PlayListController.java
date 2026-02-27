@@ -119,7 +119,7 @@ public class PlayListController {
     @PutMapping
     public void update(
             @AuthenticationPrincipal User user,
-            @RequestBody @Valid List<UpdatePlayListRequest> playLists) {
+            @RequestBody @Valid List<PlayListUpdateRequest> playLists) {
         var models = playLists.stream()
                 .map(it -> playListApiMapper.toModifyPlayList(user, it))
                 .toList();

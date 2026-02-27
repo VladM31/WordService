@@ -8,8 +8,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.WordApiMapper;
-import words.com.wordservice.api.requests.words.CreateWordRequest;
-import words.com.wordservice.api.requests.words.DeleteWordRequest;
+import words.com.wordservice.api.requests.words.WordCreateRequest;
+import words.com.wordservice.api.requests.words.WordDeleteRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
 import words.com.wordservice.api.responds.words.WordRespond;
 import words.com.wordservice.domain.services.WordService;
@@ -33,7 +33,7 @@ public class WordController {
     }
 
     @PostMapping
-    void save(@AuthenticationPrincipal User user, @RequestBody @Valid @NotEmpty Set<CreateWordRequest> words){
+    void save(@AuthenticationPrincipal User user, @RequestBody @Valid @NotEmpty Set<WordCreateRequest> words) {
         var models =  words.stream()
                 .map(it -> wordApiMapper.toModifyWord(it, user))
                 .toList();
@@ -41,7 +41,7 @@ public class WordController {
     }
 
     @DeleteMapping
-    void delete(@RequestBody @Valid DeleteWordRequest request){
+    void delete(@RequestBody @Valid WordDeleteRequest request) {
         var options = wordApiMapper.toOptions(request);
         wordService.delete(options);
     }

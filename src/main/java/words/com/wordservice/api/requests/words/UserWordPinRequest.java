@@ -5,7 +5,7 @@ import org.springframework.lang.Nullable;
 import words.com.wordservice.api.valid.annotation.NullableNotBlank;
 import words.com.wordservice.api.valid.annotation.NullableSize;
 
-public record PinUserWordRequest(
+public record UserWordPinRequest(
         @Pattern(regexp = "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", message = "Word id is not valid")
         String wordId,
         @Nullable

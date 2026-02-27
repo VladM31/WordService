@@ -5,17 +5,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import words.backend.authmodule.net.models.Role;
 import words.backend.authmodule.net.models.User;
-import words.com.wordservice.api.requests.words.CreateUserWordRequest;
-import words.com.wordservice.api.requests.words.DeleteUserWordRequest;
-import words.com.wordservice.api.requests.words.PinUserWordRequest;
+import words.com.wordservice.api.requests.words.UserWordCreateRequest;
+import words.com.wordservice.api.requests.words.UserWordDeleteRequest;
 import words.com.wordservice.api.requests.words.UserWordFilterRequest;
+import words.com.wordservice.api.requests.words.UserWordPinRequest;
 import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.filters.UserWordFilter;
 import words.com.wordservice.domain.models.words.DeleteUserWordOptions;
-import words.com.wordservice.domain.models.words.ModifyUserWord;
 import words.com.wordservice.domain.models.words.PinUserWord;
 import words.com.wordservice.domain.models.words.UserWord;
+import words.com.wordservice.domain.models.words.UserWordCreateDto;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -45,8 +45,8 @@ public class UserWordApiMapper {
         return objectMapper.convertValue(model, UserWordRespond.class);
     }
 
-    public ModifyUserWord toModel(User user, CreateUserWordRequest request){
-        return new ModifyUserWord(
+    public UserWordCreateDto toModel(User user, UserWordCreateRequest request) {
+        return new UserWordCreateDto(
                 UUID.randomUUID().toString(),
                 user.id(),
                 request.customSoundFileName(),
@@ -55,7 +55,7 @@ public class UserWordApiMapper {
         );
     }
 
-    public PinUserWord toModel(User user, PinUserWordRequest request){
+    public PinUserWord toModel(User user, UserWordPinRequest request) {
         return new PinUserWord(
                 user.id(),
                 request.wordId(),
@@ -65,8 +65,7 @@ public class UserWordApiMapper {
     }
 
 
-
-    public DeleteUserWordOptions toOptions(DeleteUserWordRequest request, String userId) {
+    public DeleteUserWordOptions toOptions(UserWordDeleteRequest request, String userId) {
         return new DeleteUserWordOptions(
                 request.id(),
                 userId,

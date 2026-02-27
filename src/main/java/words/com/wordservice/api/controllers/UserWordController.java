@@ -7,10 +7,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.UserWordApiMapper;
-import words.com.wordservice.api.requests.words.CreateUserWordRequest;
-import words.com.wordservice.api.requests.words.DeleteUserWordRequest;
-import words.com.wordservice.api.requests.words.PinUserWordRequest;
+import words.com.wordservice.api.requests.words.UserWordCreateRequest;
+import words.com.wordservice.api.requests.words.UserWordDeleteRequest;
 import words.com.wordservice.api.requests.words.UserWordFilterRequest;
+import words.com.wordservice.api.requests.words.UserWordPinRequest;
 import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.domain.services.UserWordService;
 
@@ -35,13 +35,13 @@ public class UserWordController {
     }
 
     @PostMapping
-    public void create(@AuthenticationPrincipal User user, @RequestBody @Valid Set<CreateUserWordRequest> words){
+    public void create(@AuthenticationPrincipal User user, @RequestBody @Valid Set<UserWordCreateRequest> words) {
         var models = words.stream().map(word -> userWordApiMapper.toModel(user,word)).toList();
         userWordService.save(models);
     }
 
     @PostMapping("pin")
-    public List<UserWordRespond> savePin(@AuthenticationPrincipal User user, @RequestBody @Valid Set<PinUserWordRequest> requests) {
+    public List<UserWordRespond> savePin(@AuthenticationPrincipal User user, @RequestBody @Valid Set<UserWordPinRequest> requests) {
         var models = requests.stream().map(it -> userWordApiMapper.toModel(user,it)).toList();
         return userWordService.savePins(models)
                 .stream()
@@ -50,7 +50,7 @@ public class UserWordController {
     }
 
     @PostMapping("delete")
-    public void delete(@AuthenticationPrincipal User user, @RequestBody @Valid List<DeleteUserWordRequest> requests){
+    public void delete(@AuthenticationPrincipal User user, @RequestBody @Valid List<UserWordDeleteRequest> requests) {
         userWordService.delete(
                 requests.stream().map(request -> userWordApiMapper.toOptions(request, user.id())).collect(Collectors.toSet())
         );
