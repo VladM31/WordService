@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
+import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.entities.PinnedWordEntity;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.entities.WordEntity;
@@ -149,8 +149,8 @@ public class WordPlayListDomainMapper {
         );
     }
 
-    public UpdateUserWordGradeAction toAction(PlayListGrade model) {
-        return new UpdateUserWordGradeAction(
+    public UserWordGradeUpdateAction toAction(PlayListGrade model) {
+        return new UserWordGradeUpdateAction(
                 model.wordId(),
                 model.userId(),
                 model.wordGrade()

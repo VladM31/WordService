@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-import words.com.wordservice.db.actions.DeleteWordAction;
+import words.com.wordservice.db.actions.WordDeleteAction;
 import words.com.wordservice.db.daos.WordDao;
 import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.db.searches.WordSearch;
@@ -50,10 +50,10 @@ class WordDaoImpl implements WordDao {
 
     @Override
     @Transactional
-    public void delete(Collection<DeleteWordAction> actions) {
+    public void delete(Collection<WordDeleteAction> actions) {
         ArrayList<Specification<WordEntity>> searches = new ArrayList<>();
 
-        for (DeleteWordAction action : actions) {
+        for (WordDeleteAction action : actions) {
             searches.add(WordSearch.builder()
                     .wordId(action.id())
                     .type(action.type())

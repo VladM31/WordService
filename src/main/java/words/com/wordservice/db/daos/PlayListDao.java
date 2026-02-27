@@ -2,7 +2,7 @@ package words.com.wordservice.db.daos;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
+import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 import words.com.wordservice.db.searches.WordPlayListCountSearch;
@@ -31,7 +31,7 @@ public interface PlayListDao {
 
     void updateAll(Collection<WordPlayListEntity> entities);
 
-    void updateGrades(Collection<UpdateUserWordGradeAction> actions);
+    void updateGrades(Collection<UserWordGradeUpdateAction> actions);
 
     void delete(WordPlayListSearch search);
 }

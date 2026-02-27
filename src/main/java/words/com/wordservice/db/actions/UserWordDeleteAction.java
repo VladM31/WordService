@@ -1,6 +1,6 @@
 package words.com.wordservice.db.actions;
 
-public record DeleteUserWordAction(
+public record UserWordDeleteAction(
         String id,
         String wordId,
         String userId

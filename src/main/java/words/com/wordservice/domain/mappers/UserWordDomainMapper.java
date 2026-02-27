@@ -3,8 +3,8 @@ package words.com.wordservice.domain.mappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import words.com.wordservice.db.actions.DeleteUserWordAction;
-import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
+import words.com.wordservice.db.actions.UserWordDeleteAction;
+import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.entities.UserWordEntity;
 import words.com.wordservice.db.entities.history.LearningHistoryEntity;
@@ -58,16 +58,16 @@ public class UserWordDomainMapper {
         );
     }
 
-    public UpdateUserWordGradeAction toAction(UserWordGrade model) {
-        return new UpdateUserWordGradeAction(
+    public UserWordGradeUpdateAction toAction(UserWordGrade model) {
+        return new UserWordGradeUpdateAction(
                 model.userWordId(),
                 model.userId(),
                 model.value()
         );
     }
 
-    public DeleteUserWordAction toAction(UserWordDeleteDto model) {
-        return new DeleteUserWordAction(
+    public UserWordDeleteAction toAction(UserWordDeleteDto model) {
+        return new UserWordDeleteAction(
                 model.id(),
                 model.wordId(),
                 model.userId()

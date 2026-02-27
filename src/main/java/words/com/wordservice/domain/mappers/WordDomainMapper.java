@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
-import words.com.wordservice.db.actions.DeleteWordAction;
+import words.com.wordservice.db.actions.WordDeleteAction;
 import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.domain.models.words.ModifyWord;
 import words.com.wordservice.domain.models.words.Word;
@@ -62,9 +62,9 @@ public class WordDomainMapper {
         );
     }
 
-    public Collection<DeleteWordAction> toActions(WordDeleteDto options) {
+    public Collection<WordDeleteAction> toActions(WordDeleteDto options) {
         return options.ids().stream()
-                .map(id -> new DeleteWordAction(id, options.type()))
+                .map(id -> new WordDeleteAction(id, options.type()))
                 .collect(Collectors.toSet());
     }
 }

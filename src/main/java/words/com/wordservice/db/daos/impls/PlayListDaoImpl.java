@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.CollectionUtils;
-import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
+import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.daos.PlayListDao;
 import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
@@ -107,9 +107,9 @@ class PlayListDaoImpl implements PlayListDao {
 
     @Override
     @Transactional
-    public void updateGrades(Collection<UpdateUserWordGradeAction> actions) {
+    public void updateGrades(Collection<UserWordGradeUpdateAction> actions) {
         OffsetDateTime lastReadDate = OffsetDateTime.now();
-        for (UpdateUserWordGradeAction action : actions) {
+        for (UserWordGradeUpdateAction action : actions) {
             if (userWordRepository.updateGrade(action.value(), lastReadDate, action.userWordId(), action.userId()) > 0){
                 pinnedWordRepository.updateGrade(action.value(), lastReadDate, action.userWordId());
             }

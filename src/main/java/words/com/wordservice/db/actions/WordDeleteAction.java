@@ -2,7 +2,7 @@ package words.com.wordservice.db.actions;
 
 import words.com.wordservice.domain.models.enums.WordType;
 
-public record DeleteWordAction(
+public record WordDeleteAction(
         String id,
         WordType type
 ) {

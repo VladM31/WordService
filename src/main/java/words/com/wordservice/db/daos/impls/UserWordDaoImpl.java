@@ -5,8 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
-import words.com.wordservice.db.actions.DeleteUserWordAction;
-import words.com.wordservice.db.actions.UpdateUserWordGradeAction;
+import words.com.wordservice.db.actions.UserWordDeleteAction;
+import words.com.wordservice.db.actions.UserWordGradeUpdateAction;
 import words.com.wordservice.db.actions.UserWordUpsertAction;
 import words.com.wordservice.db.daos.UserWordDao;
 import words.com.wordservice.db.entities.UserWordEntity;
@@ -72,8 +72,8 @@ class UserWordDaoImpl implements UserWordDao {
 
     @Override
     @Transactional
-    public void addGrades(Collection<UpdateUserWordGradeAction> actions) {
-        for (UpdateUserWordGradeAction action : actions) {
+    public void addGrades(Collection<UserWordGradeUpdateAction> actions) {
+        for (UserWordGradeUpdateAction action : actions) {
             repository.updateGrade(
                     action.value(),
                     OffsetDateTime.now(),
@@ -85,8 +85,8 @@ class UserWordDaoImpl implements UserWordDao {
 
     @Override
     @Transactional
-    public void delete(Collection<DeleteUserWordAction> actions) {
-        for (DeleteUserWordAction action : actions) {
+    public void delete(Collection<UserWordDeleteAction> actions) {
+        for (UserWordDeleteAction action : actions) {
             var searchBuilder = UserWordSearch.builder()
                     .userWordId(action.id())
                     .wordId(action.wordId());
