@@ -53,7 +53,7 @@ public class UserWordController {
         );
     }
 
-    @PatchMapping
+    @PutMapping
     public void update(@AuthenticationPrincipal User user, @RequestBody @Valid UserWordEditRequest request) {
         var model = userWordApiMapper.toModel(user, request);
         userWordService.update(model);
