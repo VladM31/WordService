@@ -8,10 +8,10 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.mappers.WordApiMapper;
-import words.com.wordservice.api.requests.words.DeleteWordRequest;
 import words.com.wordservice.api.requests.words.CreateWordRequest;
+import words.com.wordservice.api.requests.words.DeleteWordRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
-import words.com.wordservice.api.responds.WordRespond;
+import words.com.wordservice.api.responds.words.WordRespond;
 import words.com.wordservice.domain.services.WordService;
 
 import java.util.Set;

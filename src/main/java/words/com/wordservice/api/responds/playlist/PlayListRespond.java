@@ -1,7 +1,7 @@
 package words.com.wordservice.api.responds.playlist;
 
 import org.springframework.lang.Nullable;
-import words.com.wordservice.api.responds.UserWordRespond;
+import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.Language;
 

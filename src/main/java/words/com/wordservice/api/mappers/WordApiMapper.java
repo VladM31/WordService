@@ -8,7 +8,7 @@ import words.backend.authmodule.net.models.User;
 import words.com.wordservice.api.requests.words.CreateWordRequest;
 import words.com.wordservice.api.requests.words.DeleteWordRequest;
 import words.com.wordservice.api.requests.words.WordGetRequest;
-import words.com.wordservice.api.responds.WordRespond;
+import words.com.wordservice.api.responds.words.WordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.enums.WordType;
 import words.com.wordservice.domain.models.filters.WordFilter;

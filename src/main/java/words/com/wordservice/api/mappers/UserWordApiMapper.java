@@ -9,7 +9,7 @@ import words.com.wordservice.api.requests.words.CreateUserWordRequest;
 import words.com.wordservice.api.requests.words.DeleteUserWordRequest;
 import words.com.wordservice.api.requests.words.PinUserWordRequest;
 import words.com.wordservice.api.requests.words.UserWordFilterRequest;
-import words.com.wordservice.api.responds.UserWordRespond;
+import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.api.utils.DecodeUtils;
 import words.com.wordservice.domain.models.filters.UserWordFilter;
 import words.com.wordservice.domain.models.words.DeleteUserWordOptions;

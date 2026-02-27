@@ -11,7 +11,7 @@ import words.com.wordservice.api.requests.words.CreateUserWordRequest;
 import words.com.wordservice.api.requests.words.DeleteUserWordRequest;
 import words.com.wordservice.api.requests.words.PinUserWordRequest;
 import words.com.wordservice.api.requests.words.UserWordFilterRequest;
-import words.com.wordservice.api.responds.UserWordRespond;
+import words.com.wordservice.api.responds.words.UserWordRespond;
 import words.com.wordservice.domain.services.UserWordService;
 
 import java.util.List;
