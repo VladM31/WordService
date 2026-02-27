@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import words.com.wordservice.db.actions.WordDeleteAction;
+import words.com.wordservice.db.actions.WordUpdateAction;
 import words.com.wordservice.db.daos.WordDao;
 import words.com.wordservice.db.entities.WordEntity;
 import words.com.wordservice.db.searches.WordSearch;
@@ -41,6 +42,20 @@ class WordDaoImpl implements WordDao {
     @Override
     public void update(WordEntity entity) {
         repository.save(entity);
+    }
+
+    @Override
+    public void update(WordUpdateAction action) {
+        repository.update(
+                action.id(),
+                action.original(),
+                action.lang(),
+                action.translate(),
+                action.translateLang(),
+                action.category(),
+                action.description(),
+                action.cefr()
+        );
     }
 
     @Override
