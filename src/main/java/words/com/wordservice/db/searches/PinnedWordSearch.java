@@ -30,15 +30,20 @@ public class PinnedWordSearch implements Specification<PinnedWordEntity> {
     public Predicate toPredicate(@NonNull Root<PinnedWordEntity> root, CriteriaQuery<?> query,@NonNull CriteriaBuilder cb) {
         ArrayList<Predicate> predicates = new ArrayList<>();
 
-        // Add fetch joins only for non-count queries to avoid affecting count projections
+        // Add fetch joins only for SELECT (non-count, non-delete/update) queries
+        // Hibernate 6 does NOT support fetch joins in DELETE/UPDATE — causes ClassCastException
+        assert query != null;
         Class<?> resultType = query.getResultType();
-        if (!Long.class.equals(resultType)) {
-            // fetch UserWordEntity (root.word) and nested WordEntity (root.word.word)
+        boolean isSelectQuery = !Long.class.equals(resultType)
+                && !Void.class.equals(resultType)
+                && resultType != null
+                && !resultType.getName().equals("void");
+        if (isSelectQuery) {
             try {
                 root.fetch("word", JoinType.LEFT).fetch("word", JoinType.LEFT);
                 query.distinct(true);
             } catch (Exception ignore) {
-                // ignore fetch failures to keep search robust
+                // ignore fetch failures (e.g. in DELETE/UPDATE contexts)
             }
         }
 
