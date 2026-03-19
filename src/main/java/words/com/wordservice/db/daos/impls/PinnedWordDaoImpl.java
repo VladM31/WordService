@@ -32,6 +32,10 @@ class PinnedWordDaoImpl implements PinnedWordDao {
     @Override
     @Transactional
     public void delete(PinnedWordSearch search) {
-        repository.delete(search);
+        var entities = repository.findAll(search);
+        if (entities.isEmpty()) {
+            return;
+        }
+        repository.deleteAll(entities);
     }
 }
