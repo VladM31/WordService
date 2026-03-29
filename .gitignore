@@ -48,3 +48,12 @@ build/
 /new_words.json
 /backup/
 /src/main/java/words/com/wordservice/Test.java
+/src/main/java/words/com/wordservice/postconfigs/PublicPlayListExporter.java
+/src/main/java/words/com/wordservice/postconfigs/PublicPlayListWordFinder.java
+/src/main/java/words/com/wordservice/postconfigs/PublicPlayListImporter.java
+/new_playlists (1).json
+/not_found_words.json
+/src/main/java/words/com/wordservice/postconfigs/WordAudioGenerator.java
+/wordEntity.json
+/words_output.json
+/words_output_entity.json

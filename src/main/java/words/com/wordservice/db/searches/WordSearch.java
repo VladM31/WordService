@@ -82,16 +82,16 @@ public class WordSearch implements Specification<WordEntity> {
         }
 
         if (Boolean.TRUE.equals(hasSound)) {
-            predicates.add(cb.isNotNull(root.get("soundLink")));
+            predicates.add(cb.isNotNull(root.get("soundFileName")));
         }
         if (Boolean.TRUE.equals(hasImage)) {
-            predicates.add(cb.isNotNull(root.get("imageLink")));
+            predicates.add(cb.isNotNull(root.get("imageFileName")));
         }
         if (Boolean.FALSE.equals(hasSound)) {
-            predicates.add(cb.isNull(root.get("soundLink")));
+            predicates.add(cb.isNull(root.get("soundFileName")));
         }
         if (Boolean.FALSE.equals(hasImage)) {
-            predicates.add(cb.isNull(root.get("imageLink")));
+            predicates.add(cb.isNull(root.get("imageFileName")));
         }
 
         if (hasUserId()) {
