@@ -32,12 +32,11 @@ public class LearningHistorySearchMapper {
     }
 
     public Pageable toPageable(LearningHistoryFilter filter) {
-        Sort dateSort = Sort.sort(LearningHistoryEntity.class).by(LearningHistoryEntity::getDate).descending();
-        Sort timeSort = Sort.sort(LearningHistoryEntity.class).by(LearningHistoryEntity::getTime).descending();
+        Sort dateSort = Sort.sort(LearningHistoryEntity.class).by(LearningHistoryEntity::getCreatedAt).descending();
         return PageRequest.of(
                 filter.page(),
                 filter.size(),
-                dateSort.and(timeSort)
+                dateSort
         );
     }
 

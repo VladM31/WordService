@@ -7,8 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
 
-import java.time.LocalDate;
-import java.time.OffsetTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Builder
@@ -24,8 +23,7 @@ public class LearningHistoryEntity {
     private String userId;
     @Column(nullable = false, updatable = false)
     private String wordId;
-    private LocalDate date;
-    private OffsetTime time;
+    private OffsetDateTime createdAt;
     @Enumerated(EnumType.STRING)
     private LearningHistoryType type;
     private int grade;

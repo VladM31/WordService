@@ -21,7 +21,9 @@ import words.com.wordservice.domain.models.playlist.WordPlayList;
 import words.com.wordservice.domain.models.playlist.WordPlayListCount;
 import words.com.wordservice.domain.models.words.PinnedWord;
 
-import java.time.*;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.*;
 
 @Component
@@ -162,8 +164,7 @@ public class WordPlayListDomainMapper {
                 UUID.randomUUID().toString(),
                 model.userId(),
                 model.wordId(),
-                LocalDate.now(ZoneId.of("UTC")),
-                OffsetTime.now(),
+                OffsetDateTime.now(ZoneId.of("UTC")),
                 LearningHistoryType.UPDATE,
                 model.wordGrade()
         );

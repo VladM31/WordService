@@ -13,9 +13,7 @@ import words.com.wordservice.db.searches.UserWordSearch;
 import words.com.wordservice.domain.models.enums.LearningHistoryType;
 import words.com.wordservice.domain.models.words.*;
 
-import java.time.LocalDate;
 import java.time.OffsetDateTime;
-import java.time.OffsetTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
@@ -80,8 +78,7 @@ public class UserWordDomainMapper {
                 UUID.randomUUID().toString(),
                 entity.getUserId(),
                 entity.getWord().getId(),
-                LocalDate.now(ZoneId.of("UTC")),
-                OffsetTime.now(),
+                OffsetDateTime.now(ZoneId.of("UTC")),
                 LearningHistoryType.CREATE,
                 0
         );
@@ -92,8 +89,7 @@ public class UserWordDomainMapper {
                 UUID.randomUUID().toString(),
                 model.userId(),
                 model.word().id(),
-                LocalDate.now(ZoneId.of("UTC")),
-                OffsetTime.now(),
+                OffsetDateTime.now(ZoneId.of("UTC")),
                 LearningHistoryType.CREATE,
                 0
         );
@@ -104,8 +100,8 @@ public class UserWordDomainMapper {
                 UUID.randomUUID().toString(),
                 model.userId(),
                 model.wordId(),
-                LocalDate.now(ZoneId.of("UTC")),
-                OffsetTime.now(),
+
+                OffsetDateTime.now(ZoneId.of("UTC")),
                 LearningHistoryType.CREATE,
                 0
         );

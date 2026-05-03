@@ -28,7 +28,7 @@ public class LearningHistoryDomainMapper {
                 optWord.map(WordEntity::getTranslateLang).orElse(Language.UNDEFINED),
                 optWord.map(WordEntity::getLang).orElse(Language.UNDEFINED),
                 optWord.map(WordEntity::getCefr).orElse(CEFR.A1),
-                entity.getDate(),
+                entity.getCreatedAt().toLocalDate(),
                 entity.getType(),
                 entity.getGrade()
         );
