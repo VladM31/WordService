@@ -59,4 +59,8 @@ public class WordPlayListEntity {
     @Nullable
     @Column(updatable = false)
     private String associationId;
+
+    @Nullable
+    @Column(updatable = false)
+    private OffsetDateTime pinnedAt;
 }

@@ -3,11 +3,13 @@ package words.com.wordservice.db.daos.impls;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 
+import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
@@ -27,7 +29,8 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
                         wp.tags,
                         wp.cefrs,
                         wp.language,
-                        wp.translate_language AS translateLanguage
+                        wp.translate_language AS translateLanguage,
+                        wp.pinned_at AS pinnedAt
                     
                     FROM
                         word_playlists wp
@@ -49,7 +52,11 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
                        (:translateLanguage IS NULL OR wp.translate_language = :translateLanguage) AND
                        (:visibility IS NULL OR wp.visibility = :visibility) AND
                        (:associationId IS NULL OR wp.association_id = :associationId) AND
-                       (:hasNotInIds = true or wp.id NOT IN (:notInIds))
+                       (:hasNotInIds = true or wp.id NOT IN (:notInIds)) AND
+                       (:hasPin IS NULL OR
+                           (:hasPin = true AND wp.pinned_at IS NOT NULL) OR
+                           (:hasPin = false AND wp.pinned_at IS NULL)
+                       )
                     GROUP BY  wp.id
                     HAVING
                         (:toCount is null or COUNT(pw.user_word_id) < :toCount) AND
@@ -75,6 +82,7 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
             String associationId,
             boolean hasNotInIds,
             Collection<String> notInIds,
+            Boolean hasPin,
             Pageable pageable
     );
 
@@ -91,7 +99,8 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
                 wp.tags,
                 wp.cefrs,
                 wp.language,
-                wp.translate_language AS translateLanguage
+                wp.translate_language AS translateLanguage,
+                wp.pinned_at AS pinnedAt
             FROM word_playlists wp
             LEFT JOIN pinned_word pw ON wp.id = pw.play_list_id
             WHERE wp.user_id = :userId
@@ -101,4 +110,20 @@ interface WordPlayListRepository extends ListCrudRepository<WordPlayListEntity, 
             """, nativeQuery = true)
     Optional<WordPlaylistCountProjection> findRandomByUserId(String userId);
 
+    @Modifying
+    @Query("""
+                UPDATE WordPlayListEntity e
+                SET e.pinnedAt = :pinnedAt
+                WHERE e.id = :playListId and e.userId = :userId and e.pinnedAt is null
+            """)
+    int pin(String playListId, String userId, OffsetDateTime pinnedAt);
+
+
+    @Modifying
+    @Query("""
+                UPDATE WordPlayListEntity e
+                SET e.pinnedAt = null
+                WHERE e.id = :playListId  and e.userId = :userId  and e.pinnedAt is not null
+            """)
+    int unpin(String playListId, String userId);
 }

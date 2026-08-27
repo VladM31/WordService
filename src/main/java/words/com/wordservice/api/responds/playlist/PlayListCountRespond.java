@@ -1,5 +1,6 @@
 package words.com.wordservice.api.responds.playlist;
 
+import org.springframework.lang.Nullable;
 import words.com.wordservice.domain.models.enums.CEFR;
 import words.com.wordservice.domain.models.enums.Language;
 
@@ -15,6 +16,8 @@ public record PlayListCountRespond(
         TreeSet<String> tags,
         TreeSet<CEFR> cefrs,
         Language language,
-        Language translateLanguage
+        Language translateLanguage,
+        @Nullable
+        OffsetDateTime pinnedAt
 ) {
 }

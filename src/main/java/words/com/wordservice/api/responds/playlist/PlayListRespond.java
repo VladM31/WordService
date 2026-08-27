@@ -22,7 +22,9 @@ public record PlayListRespond(
         @Nullable
         Language translateLanguage,
         @Nullable
-        String associationId
+        String associationId,
+        @Nullable
+        OffsetDateTime pinnedAt
 ) {
 
     public record PinnedWordRespond(

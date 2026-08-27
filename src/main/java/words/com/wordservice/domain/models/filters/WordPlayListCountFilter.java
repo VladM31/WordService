@@ -29,6 +29,7 @@ public record WordPlayListCountFilter(
         Range<Long> count,
         PlayListVisibility visibility,
         String associationId,
+        Boolean hasPin,
 
         WordPlaylistSortField sortField,
         boolean asc,

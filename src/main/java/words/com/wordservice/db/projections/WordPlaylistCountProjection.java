@@ -22,4 +22,6 @@ public interface WordPlaylistCountProjection {
     Language getLanguage();
 
     Language getTranslateLanguage();
+
+    java.time.Instant getPinnedAt();
 }

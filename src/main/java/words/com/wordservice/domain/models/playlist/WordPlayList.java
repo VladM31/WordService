@@ -25,6 +25,8 @@ public record WordPlayList(
         @Nullable
         Language translateLanguage,
         @Nullable
-        String associationId
+        String associationId,
+        @Nullable
+        OffsetDateTime pinnedAt
 ) {
 }

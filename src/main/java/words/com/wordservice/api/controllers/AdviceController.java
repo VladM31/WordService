@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 import words.com.wordservice.api.responds.ErrorDetailsRespond;
 import words.com.wordservice.api.responds.ErrorRespond;
+import words.com.wordservice.shared.exceptions.AppException;
 
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -84,11 +84,25 @@ public class AdviceController {
         );
     }
 
+//
 
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = {AppException.class})
+    public ErrorRespond handleBadRequestException(AppException e) {
+        log.error("App Exception occurred: {}", e.getMessage(), e);
+        return new ErrorRespond(
+                new ErrorDetailsRespond(
+                        e.getMessage(),
+                        e.getClass().getSimpleName()
+                )
+        );
+    }
+
+
+    @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = {Exception.class})
     public ErrorRespond handleException(Exception e) {
-        log.error("Exception occurred: {}", e.getMessage(), e);
+        log.error("Unexpected exception occurred: {}", e.getMessage(), e);
         return new ErrorRespond(
                 new ErrorDetailsRespond(
                         e.getMessage(),

@@ -11,6 +11,7 @@ public record WordPlayListFilter(
         Collection<String> ids,
         Collection<String> userIds,
         String name,
+        Boolean hasPin,
         PlayListVisibility visibility,
 
         WordPlaylistSortField sortField,

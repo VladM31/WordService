@@ -50,7 +50,8 @@ public class WordPlayListDomainMapper {
                 entity.getCefrs(),
                 entity.getLanguage(),
                 entity.getTranslateLanguage(),
-                entity.getBaseId()
+                entity.getBaseId(),
+                entity.getPinnedAt()
         );
     }
 
@@ -64,7 +65,10 @@ public class WordPlayListDomainMapper {
                 parseStringTreeSet(projection.getTags()),
                 parseCefrTreeSet(projection.getCefrs()),
                 projection.getLanguage(),
-                projection.getTranslateLanguage()
+                projection.getTranslateLanguage(),
+                Optional.ofNullable(projection.getPinnedAt())
+                        .map(instant -> instant.atOffset(ZoneOffset.UTC))
+                        .orElse(null)
         );
     }
 
@@ -112,6 +116,7 @@ public class WordPlayListDomainMapper {
                 null,
                 PlayListVisibility.PRIVATE,
                 null,
+                null,
                 null
         );
     }
@@ -129,7 +134,8 @@ public class WordPlayListDomainMapper {
                 entity.getTranslateLanguage(),
                 PlayListVisibility.PRIVATE,
                 entity.getId(),
-                entity.getAssociationId()
+                entity.getAssociationId(),
+                null
         );
     }
 
@@ -141,6 +147,7 @@ public class WordPlayListDomainMapper {
                 model.name(),
                 null,
                 OffsetDateTime.now(),
+                null,
                 null,
                 null,
                 null,

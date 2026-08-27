@@ -30,4 +30,5 @@ public class WordPlayListCountSearch {
     private String associationId;
     @Singular(ignoreNullCollections = true)
     private Collection<String> notInIds;
+    private Boolean hasPin;
 }

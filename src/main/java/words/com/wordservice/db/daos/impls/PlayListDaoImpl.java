@@ -12,6 +12,9 @@ import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 import words.com.wordservice.db.searches.WordPlayListCountSearch;
 import words.com.wordservice.db.searches.WordPlayListSearch;
+import words.com.wordservice.playlist.db.actions.PinPlayListUpdateAction;
+import words.com.wordservice.playlist.db.actions.PlayListUpdateAction;
+import words.com.wordservice.playlist.db.actions.UnPinPlayListUpdateAction;
 import words.com.wordservice.utils.Range;
 
 import java.time.OffsetDateTime;
@@ -57,6 +60,7 @@ class PlayListDaoImpl implements PlayListDao {
                 search.getAssociationId(),
                 CollectionUtils.isEmpty(search.getNotInIds()),
                 search.getNotInIds() != null ? search.getNotInIds() : List.of(),
+                search.getHasPin(),
                 pageable
         );
     }
@@ -81,6 +85,7 @@ class PlayListDaoImpl implements PlayListDao {
                 search.getAssociationId(),
                 CollectionUtils.isEmpty(search.getNotInIds()),
                 search.getNotInIds() != null ? search.getNotInIds() : List.of(),
+                search.getHasPin(),
                 Pageable.unpaged()
         ).getContent();
     }
@@ -103,6 +108,20 @@ class PlayListDaoImpl implements PlayListDao {
     @Override
     public void updateAll(Collection<WordPlayListEntity> entities) {
         repository.saveAll(entities);
+    }
+
+    @Override
+    @Transactional
+    public int update(PlayListUpdateAction action) {
+        switch (action) {
+            case PinPlayListUpdateAction pinAction -> {
+                return repository.pin(pinAction.playListId(), pinAction.userId(), pinAction.pinnedAt());
+            }
+            case UnPinPlayListUpdateAction unPinAction -> {
+                return repository.unpin(unPinAction.playListId(), unPinAction.userId());
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + action);
+        }
     }
 
     @Override

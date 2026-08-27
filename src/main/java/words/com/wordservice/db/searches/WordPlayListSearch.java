@@ -23,6 +23,7 @@ public class WordPlayListSearch implements Specification<WordPlayListEntity> {
     private Collection<String> ids;
     @Singular(ignoreNullCollections = true)
     private Collection<String> userIds;
+    private Boolean hasPin;
 
     private String name;
     private PlayListVisibility visibility;
@@ -44,6 +45,12 @@ public class WordPlayListSearch implements Specification<WordPlayListEntity> {
         }
         if (visibility != null) {
             predicates.add(cb.equal(root.get("visibility"), visibility));
+        }
+        if (Boolean.TRUE.equals(hasPin)) {
+            predicates.add(cb.isNotNull(root.get("pinnedAt")));
+        }
+        if (Boolean.FALSE.equals(hasPin)) {
+            predicates.add(cb.isNull(root.get("pinnedAt")));
         }
 
         if (predicates.isEmpty()) {

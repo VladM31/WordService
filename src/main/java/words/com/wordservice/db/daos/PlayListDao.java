@@ -7,6 +7,7 @@ import words.com.wordservice.db.entities.WordPlayListEntity;
 import words.com.wordservice.db.projections.WordPlaylistCountProjection;
 import words.com.wordservice.db.searches.WordPlayListCountSearch;
 import words.com.wordservice.db.searches.WordPlayListSearch;
+import words.com.wordservice.playlist.db.actions.PlayListUpdateAction;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,6 +31,8 @@ public interface PlayListDao {
     void saveAll(Collection<WordPlayListEntity> entities);
 
     void updateAll(Collection<WordPlayListEntity> entities);
+
+    int update(PlayListUpdateAction action);
 
     void updateGrades(Collection<UserWordGradeUpdateAction> actions);
 

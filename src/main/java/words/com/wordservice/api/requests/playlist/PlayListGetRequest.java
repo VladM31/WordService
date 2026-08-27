@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.With;
 import words.com.wordservice.domain.models.enums.sortfileds.WordPlaylistSortField;
 
-import java.util.Collection;
 import java.util.Set;
 
 public record PlayListGetRequest(
@@ -14,6 +13,7 @@ public record PlayListGetRequest(
         @With
         Set<String> userIds,
         String name,
+        Boolean hasPin,
 
         @NotNull(message = "Sort field must be specified")
         WordPlaylistSortField sortField,

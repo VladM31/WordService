@@ -15,6 +15,7 @@ public record PlayListCountGetRequest(
         Set<String> userIds,
         String name,
         LongRange count,
+        Boolean hasPin,
 
         @NotNull(message = "Sort field must be specified")
         WordPlaylistSortField sortField,
