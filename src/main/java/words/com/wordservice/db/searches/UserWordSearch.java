@@ -63,8 +63,12 @@ public class UserWordSearch implements Specification<UserWordEntity> {
             predicates.add(root.get("userId").in(userIds));
         }
 
-        Join<UserWordEntity, WordEntity> wordJoin = (Join<UserWordEntity, WordEntity>)
-                root.<UserWordEntity, WordEntity>fetch("word", JoinType.INNER);
+        boolean isEntityQuery = query == null || query.getResultType() == null
+                || UserWordEntity.class.isAssignableFrom(query.getResultType());
+
+        Join<UserWordEntity, WordEntity> wordJoin = isEntityQuery
+                ? (Join<UserWordEntity, WordEntity>) root.<UserWordEntity, WordEntity>fetch("word", JoinType.INNER)
+                : root.join("word", JoinType.INNER);
 
         if (!CollectionUtils.isEmpty(languages)) {
             predicates.add(wordJoin.get("lang").in(languages));
