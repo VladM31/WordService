@@ -38,10 +38,10 @@ public class LearningHistorySearch implements Specification<LearningHistoryEntit
         }
 
         if (Range.hasFrom(date)) {
-            predicates.add(cb.greaterThanOrEqualTo(root.get("date"), date.getFrom()));
+            predicates.add(cb.greaterThanOrEqualTo(root.get("createdAt"), date.getFrom()));
         }
         if (Range.hasTo(date)) {
-            predicates.add(cb.lessThanOrEqualTo(root.get("date"), date.getTo()));
+            predicates.add(cb.lessThanOrEqualTo(root.get("createdAt"), date.getTo()));
         }
 
         return predicates.isEmpty() ? null : cb.and(predicates.toArray(new Predicate[0]));
