@@ -33,22 +33,26 @@ public class WordPlayListSearchMapper {
             .configure(com.fasterxml.jackson.databind.DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
     public Pageable toPageable(WordPlayListFilter filter) {
-        var sort = toSort(filter.sortField(), filter.asc());
+        var sort = toSort(filter.sortField(), filter.asc(), false);
         return PageRequest.of(filter.page(), filter.size(), sort);
     }
 
     public Pageable toPageable(WordPlayListCountFilter filter) {
-        var sort = toSort(filter.sortField(), filter.asc());
+        var sort = toSort(filter.sortField(), filter.asc(), true);
         return PageRequest.of(filter.page(), filter.size(), sort);
     }
 
-    private Sort toSort(WordPlaylistSortField field, boolean asc) {
+    private Sort toSort(WordPlaylistSortField field, boolean asc, boolean sortByPin) {
         var sortField = sortFieldMap.get(Objects.requireNonNullElse(field, NAME));
         var direction = asc ? Sort.Direction.ASC : Sort.Direction.DESC;
         var mainOrder = new Sort.Order(direction, sortField);
 
-        var pinnedOrder = new Sort.Order(Sort.Direction.DESC, "pinnedAt", Sort.NullHandling.NULLS_LAST);
-        return Sort.by(pinnedOrder, mainOrder);
+        if (sortByPin) {
+            var pinnedOrder = new Sort.Order(Sort.Direction.DESC, "pinnedAt", Sort.NullHandling.NULLS_LAST);
+            return Sort.by(pinnedOrder, mainOrder);
+        }
+
+        return Sort.by(mainOrder);
     }
 
     public WordPlayListSearch toSearch(WordPlayListFilter filter) {
